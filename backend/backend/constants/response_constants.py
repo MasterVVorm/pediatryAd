@@ -1,0 +1,10 @@
+class ResponseConstants:
+    WRONG_BODY = 'request body is invalid'
+    SUCCESS = 'successful'
+    INVALID_TOKEN = 'token is invalid'
+    BAD_REQUEST = 'bad request'
+    SERVER_ERROR = 'iternal server error'
+    WRONG_AD_ID = 'wrong advertisement id'
+    SMTHG_WRONG = 'something went wrong'
+    LITL_AMOUNT_OF_IMAGES = 'there must be at least 1 image for an adretisement'
+    BIG_AMOUNT_OF_IMAGES = 'there are too many images for one advertisement'
