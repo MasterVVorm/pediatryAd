@@ -1,7 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import store from './store'
-import LazyLoad from './components/lazy_load/LazyLoad.vue'
+import Preloader from './components/preloader/Preloader.vue'
+import store from './store'
+
+const Home = () => ({
+  component: import('./pages/home/HomePage.vue'),
+  loading: Preloader
+
+})
+const Login = () => ({
+  component: import('./pages/login/LoginPage.vue'),
+  loading: Preloader
+})
+const CreateAd = () => ({
+  component: import('./pages/create_ad/CreateAdPage.vue'),
+  loading: Preloader
+})
+const EditAd = () => ({
+  component: import('./pages/edit_ad/EditAdPage.vue'),
+  loading: Preloader
+})
 
 Vue.use(Router)
 
@@ -11,32 +29,32 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: LazyLoad,
-      props: {
-        url: '@/pages/home/Home.vue'
-      }
+      component: Home,
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('./pages/login/Login.vue')
+      component: Login
     },
     {
       path: '/edit/:id',
       name: 'edit',
-      component: () => import('./pages/edit_ad/EditAd.vue')
+      component: EditAd
     },
     {
       path: '/create',
       name: 'create',
-      component: () => import('./pages/create_ad/CreateAd.vue')
+      component: CreateAd
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  //TODO: Add is user logged handling
-  next()
-})
-
+  if (to.fullPath === '/') {
+    if (!store.state.logged) {
+      next('/login');
+    }
+  }
+  next();
+});
 export default router

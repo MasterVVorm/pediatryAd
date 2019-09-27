@@ -5,7 +5,10 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    logged: false
+    logged: false,
+    token: null,
+    advertisements: [],
+    currentAd: {}
   },
   mutations: {
 
