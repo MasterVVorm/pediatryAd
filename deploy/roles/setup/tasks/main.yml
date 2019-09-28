@@ -1,0 +1,27 @@
+
+
+    - name: Install rsync
+      package:
+        name: rsync
+        state: present
+
+    - name: Synchronization of src on the control machine to dest on the remote hosts
+      synchronize: 
+        src: ../../../..
+        dest: ~/.
+        delete: yes
+        recursive: yes
+      become: no
+
+    - name: Prune images 
+      docker_prune:
+        images: yes
+
+    - name: Open 80 port if Centos
+      firewalld:
+        port: 80/tcp
+        permanent: yes
+        state: enabled
+        zone: public
+        immediate: yes
+      when: ansible_os_family == "RedHat"

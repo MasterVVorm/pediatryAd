@@ -1,0 +1,29 @@
+
+---
+- hosts: pediatry
+
+  vars:
+    pip_package: "{{ 'python3-pip' if ansible_os_family == 'Debian' else 'python-pip' }}"
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
+
+  roles:
+    - { role: geerlingguy.repo-epel, when: ansible_os_family == "RedHat" } 
+    - geerlingguy.pip
+    - geerlingguy.docker    
+    - setup
+    - server
+    - client
+  become: yes
+  become_method: sudo
+  #tasks:
+
+
+        
+
+
+
+
+ 
+

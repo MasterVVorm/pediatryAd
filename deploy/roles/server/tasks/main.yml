@@ -1,0 +1,14 @@
+        
+    
+
+- name: Shutdown server using docker compose
+  shell: "SERVER_PORT=9000 docker-compose -f pediatryAd/deploy/server/docker-compose.yml --project-directory pediatryAd down"
+
+- name: Start server using docker compose
+  shell: "SERVER_PORT=9000 docker-compose -f pediatryAd/deploy/server/docker-compose.yml --project-directory pediatryAd up --build -d"
+
+  
+
+
+
+

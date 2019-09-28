@@ -1,0 +1,49 @@
+
+    - name: Build Docker image for build node client
+      docker_image:
+        name: build_client
+        build:
+          path: pediatryAd
+          dockerfile: deploy/client/build_client.dockerfile
+          pull: yes
+        state: present
+        source: build
+        
+          
+    - name: Run building node client in docker contaiter
+      docker_container:
+        name: build_client
+        image: build_client:latest    
+        volumes:
+          - "{{ ansible_env.PWD }}/pediatryAd/frontend:/app"
+        user: 1000:1000
+        detach: no
+
+    - name: Remove Docker image for client 
+      docker_image:
+        name: client
+        state: absent
+        force_absent: yes
+
+    - name: Build Docker image for client 
+      docker_image:
+        name: client
+        state: present
+        build:
+          path: pediatryAd        
+          dockerfile: deploy/client/client.dockerfile        
+          pull: yes
+        source: build
+
+    - name: Run node client contaiter
+      docker_container:
+        name: client
+        image: client:latest  
+        network_mode: host
+        recreate: yes
+        restart_policy: unless-stopped
+
+
+
+ 
+

@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  server:
+    build:
+      context: .
+      dockerfile: deploy/server/server.dockerfile      
+    command: bash -c "python backend/manage.py migrate && gunicorn --chdir backend wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    expose:
+      - "8000"
+    restart: unless-stopped
+    user: 1000:1000
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "${SERVER_PORT}:8000"
+    volumes:
+      - .:/app
+      - ./deploy/server/nginx.conf:/etc/nginx/conf.d/server.conf
+    depends_on:
+      - server
+    restart: unless-stopped
