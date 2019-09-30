@@ -6,11 +6,17 @@
 
 <script>
 export default {
-    name: 'login_page_input_container',
-    props: {
-        onSubmit: Function
+  name: "login_page_input_container",
+  props: {
+    startLogin: Function
+  },
+  methods: {
+    onSubmit: function(e) {
+      e.preventDefault();
+      this.$emit("onSubmit");
     }
-}
+  }
+};
 </script>
 
 <style lang="scss" scoped>

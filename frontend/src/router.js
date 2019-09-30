@@ -4,57 +4,48 @@ import Preloader from './components/preloader/Preloader.vue'
 import store from './store'
 
 const Home = () => ({
-  component: import('./pages/home/HomePage.vue'),
-  loading: Preloader
+    component: import ('./pages/home/HomePage.vue'),
+    loading: Preloader
 
 })
 const Login = () => ({
-  component: import('./pages/login/LoginPage.vue'),
-  loading: Preloader
+    component: import ('./pages/login/LoginPage.vue'),
+    loading: Preloader
 })
 const CreateAd = () => ({
-  component: import('./pages/create_ad/CreateAdPage.vue'),
-  loading: Preloader
+    component: import ('./pages/create_ad/CreateAdPage.vue'),
+    loading: Preloader
 })
 const EditAd = () => ({
-  component: import('./pages/edit_ad/EditAdPage.vue'),
-  loading: Preloader
+    component: import ('./pages/edit_ad/EditAdPage.vue'),
+    loading: Preloader
 })
 
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
-    {
-      path: '/edit/:id',
-      name: 'edit',
-      component: EditAd
-    },
-    {
-      path: '/create',
-      name: 'create',
-      component: CreateAd
-    }
-  ]
+    mode: 'history',
+    routes: [{
+            path: '/',
+            name: 'home',
+            component: Home,
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
+        },
+        {
+            path: '/edit/:id',
+            name: 'edit',
+            component: EditAd
+        },
+        {
+            path: '/create',
+            name: 'create',
+            component: CreateAd
+        }
+    ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.fullPath === '/') {
-    if (!store.state.logged) {
-      next('/login');
-    }
-  }
-  next();
-});
 export default router

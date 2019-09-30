@@ -1,3 +1,5 @@
 media/
 /.idea/
 *.pyc
+env
+.sqlite3

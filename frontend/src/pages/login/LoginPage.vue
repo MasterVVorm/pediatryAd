@@ -1,7 +1,7 @@
 <template>
   <section>
     <img id="logo" src="../../assets/images/logo.svg" alt />
-    <LoginPageInputContainer :onSubmit="onSubmit">
+    <LoginPageInputContainer @onSubmit="onSubmit">
       <h1>
         Lorem ipsum dolor sit
         amet, consectetur
@@ -35,7 +35,7 @@
 import InputBase from "../../components/input/InputBase";
 import LoginPageInputContainer from "./LoginPageInputContainer";
 import { userConstants } from "../../constants/user.constants";
-import ButtonBase from "../../components/button/ButtonBase";
+import ButtonBase from "../../components/buttons/base/ButtonBase";
 import LoginPageRightSide from "./LoginPageRightSide";
 
 export default {
@@ -61,7 +61,7 @@ export default {
 };
 
 function validateData(text) {
-  return text.length > 4;
+  return text.length > 3;
 }
 
 function setUserData(id, value) {
@@ -77,8 +77,13 @@ function setUserData(id, value) {
   }
 }
 
-function onSubmit(e) {
-  e.preventDefault();
+function onSubmit() {
+  if (validateData(this.login) && validateData(this.password)) {
+    this.$store.dispatch("login", {
+      login: this.login,
+      password: this.password
+    });
+  }
 }
 </script>
 

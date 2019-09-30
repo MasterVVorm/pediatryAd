@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { colors } from "../../constants/color.constants";
+import { colors } from "@/constants/color.constants";
 
 export default {
   name: "buttonBase",
@@ -30,7 +30,7 @@ export default {
       return `
         border:  1px solid ${colors.MAIN};
         color: ${this.hovered ? "white" : colors.MAIN};
-        background: ${this.hovered ? colors.MAIN : 'white'};
+        background: ${this.hovered ? colors.MAIN : "white"};
         ${this.styles}
       `;
     }
