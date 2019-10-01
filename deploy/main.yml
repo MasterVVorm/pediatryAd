@@ -18,6 +18,14 @@
   become: yes
   become_method: sudo
   #tasks:
+  tags: pediatry
+
+- hosts: jenkins
+
+  roles:
+    - role: geerlingguy.jenkins
+      become: yes
+  tags: jenkins
 
 
         
