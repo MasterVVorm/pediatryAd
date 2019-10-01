@@ -1,11 +1,16 @@
 <template>
-  <div class="create_btn"></div>
+  <div class="create_btn" @click="goToCreatePage"></div>
 </template>
 
 <script>
 import { colors } from "@/constants/color.constants";
 export default {
-  name: "button_create"
+  name: "button_create",
+  methods: {
+    goToCreatePage() {
+      this.$router.push("/create");
+    }
+  }
 };
 </script>
 
@@ -34,6 +39,7 @@ export default {
     min-height: 2px;
     color: inherit;
     background: $mainColor;
+    transition: 0.3s;
   }
   &::before {
     transform: translateY(-50%) translateX(-50%) rotateZ(90deg);
@@ -44,6 +50,11 @@ export default {
   &:hover {
     transform: translateY(-60%) translateX(50%);
     box-shadow: 0 5px 20px 2px rgba(0, 0, 0, 0.15);
+    background: $mainColor;
+    &::before,
+    &::after {
+      background: white;
+    }
   }
 }
 </style>

@@ -137,7 +137,7 @@ def advertisements(request):
                     for image in images:
                         image_array.append({
                             "image_id": image.id,
-                            "url": request.META['HTTP_HOST'] + image.image.url
+                            "url": "http://" + request.META['HTTP_HOST'] + image.image.url
                         })
                     response['ads'].append({
                         "id": ad.id,

@@ -37,7 +37,7 @@ const store = new Vuex.Store({
         set_login_in(state, payload) {
             state.loginIn = payload
         },
-        set_loading(stat, payload) {
+        set_loading(state, payload) {
             state.loading = payload
         },
         set_error(state, payload) {
@@ -56,7 +56,6 @@ const store = new Vuex.Store({
             if (token) {
                 try {
                     const response = await userServicies.validateToken(token)
-                    console.log(response)
                     const { status, data } = response
                     if (validateStatus(status)) {
                         success(data.token)
@@ -79,11 +78,15 @@ const store = new Vuex.Store({
                 commit('set_logged', true)
                 commit('set_starting_app', false)
                 localStorage.setItem(storageConstants.TOKEN, JSON.stringify(token))
-                router.push('/')
+                if (window.location.href.includes('login')) {
+                    router.push('/')
+                }
             }
 
             function failure(message) {
                 commit('set_starting_app', false)
+                localStorage.removeItem(storageConstants.TOKEN)
+                router.push('/login')
             }
         },
         login: async({ commit, state }, user) => {
@@ -157,7 +160,8 @@ const store = new Vuex.Store({
     getters: {
         LOGGED: state => state.logged,
         TOKEN: state => state.token,
-        ADS: state => state.advertisements
+        ADS: state => state.advertisements,
+        LOADING: state => state.loading
     }
 })
 

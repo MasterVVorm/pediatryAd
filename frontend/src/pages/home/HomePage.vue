@@ -4,13 +4,22 @@
       <h1>Рекламные компании</h1>
       <ButtonCreate />
     </header>
-    <div class="content"></div>
+    <div class="content_wrapper">
+      <Preloader v-if="isLoading" />
+      <div class="no_content" v-else-if="getAds.length === 0">
+        <h1>У Вас пока что не создано ни одной рекламной компании.</h1>
+      </div>
+      <div class="content" v-else>
+        <HomePageItem v-for="item in getAds" :key="item.id" :advertisement="item" />
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
 import Preloader from "../../components/preloader/Preloader";
 import ButtonCreate from "../../components/buttons/create/ButtonCreate";
+import HomePageItem from "./HomePageItem";
 export default {
   name: "home",
   props: {
@@ -18,13 +27,20 @@ export default {
   },
   components: {
     Preloader,
-    ButtonCreate
+    ButtonCreate,
+    HomePageItem
   },
   computed: {
-    getAds() {}
+    getAds() {
+      return this.$store.getters.ADS;
+    },
+    isLoading() {
+      return this.$store.getters.LOADING;
+    }
   },
   created() {
-    console.log(this.$store.getters.ADS);
+    this.$store.dispatch("get_advertisements");
+    console.log(this.$store.getters.ADS[0]);
   }
 };
 </script>
@@ -35,8 +51,9 @@ section {
   width: 100%;
   height: 100%;
   display: grid;
+  max-height: 100vh;
   @media (max-width: 1919px) {
-    grid-template-rows: minmax(120px, 8.6vw) auto;
+    grid-template-rows: minmax(120px, 8.6vw) calc(100vh - 120px);
   }
   @media (min-width: 1920px) {
     grid-template-rows: 165px auto;
@@ -48,7 +65,6 @@ section {
     height: 100%;
     max-width: 1656px;
     margin: 0 auto;
-    background: lightgreen;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -63,13 +79,34 @@ section {
       }
     }
   }
-  .content {
+  .content_wrapper {
     position: relative;
-    width: 86.25vw;
+    width: 87.25vw;
     max-width: 1656px;
     height: 100%;
     margin: 0 auto;
-    background: lightcoral;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    .no_content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+      color: $textColor;
+    }
+    .content {
+      position: relative;
+      width: calc(99.5% - 10px);
+      height: calc(100% - 20px);
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      overflow-y: auto;
+      padding-top: 20px;
+      padding-left: 10px;
+    }
   }
 }
 </style>

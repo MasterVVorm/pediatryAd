@@ -1,0 +1,51 @@
+::-webkit-scrollbar {
+    width: 0.625vw;
+    max-width: 12px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: #f8f8f8;
+    border-radius: 10px 10px 0px 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c0bbc7;
+    border-radius: 10px;
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover {
+        background: $mainColor;
+    }
+}
+
+.control_btn {
+    position: relative;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover {
+        background: $mainColor;
+        svg {
+            path {
+                stroke: white;
+            }
+        }
+    }
+    svg {
+        position: relative;
+        transition: 0.3s;
+        @media (max-width: 1919px) {
+            width: 1.2vw;
+            height: 1.2vw;
+        }
+        @media (min-width: 1920px) {
+            width: 23px;
+            height: 23px;
+        }
+    }
+}
