@@ -20,10 +20,8 @@ export default {
   top: 50%;
   right: 0;
   transform: translateY(-50%) translateX(50%);
-  width: 1.95vw;
-  height: 1.95vw;
-  max-width: 37.5px;
-  max-height: 37.5px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   border: 2px solid $mainColor;
   transition: 0.3s;
@@ -35,8 +33,7 @@ export default {
     top: 50%;
     left: 50%;
     width: 80%;
-    height: 5%;
-    min-height: 2px;
+    height: 3px;
     color: inherit;
     background: $mainColor;
     transition: 0.3s;
@@ -48,8 +45,6 @@ export default {
     transform: translateY(-50%) translateX(-50%);
   }
   &:hover {
-    transform: translateY(-60%) translateX(50%);
-    box-shadow: 0 5px 20px 2px rgba(0, 0, 0, 0.15);
     background: $mainColor;
     &::before,
     &::after {

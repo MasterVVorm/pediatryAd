@@ -99,7 +99,6 @@ def update_active(request):
             recieved_data = json.loads(request.body)
             token = recieved_data['token']
             ad_id = recieved_data['ad_id']
-            active = recieved_data['active']
         except:
             return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
 
@@ -110,7 +109,7 @@ def update_active(request):
 
         try:
             ad = Advertisement.objects.get(id=int(ad_id))
-            ad.active = active
+            ad.active = not ad.active
             ad.save(update_fields=['active'])
             return HttpResponse()
         except:
@@ -168,8 +167,8 @@ def update_times(request):
         ad = Advertisement.objects.get(id=int(ad_id))
         ad.start_time = start_time
         ad.end_time = end_time
-        ad.save(update_fields=['start_time','end_time'])
+        ad.save(update_fields=['start_time', 'end_time'])
         return HttpResponse()
-      
+
     else:
         return HttpResponse(status=405)

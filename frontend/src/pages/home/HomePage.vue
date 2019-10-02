@@ -40,7 +40,6 @@ export default {
   },
   created() {
     this.$store.dispatch("get_advertisements");
-    console.log(this.$store.getters.ADS[0]);
   }
 };
 </script>
@@ -99,13 +98,12 @@ section {
       position: relative;
       width: calc(99.5% - 10px);
       height: calc(100% - 20px);
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
+      display: flexbox;
       flex-wrap: wrap;
       overflow-y: auto;
       padding-top: 20px;
       padding-left: 10px;
+      transition: 0.3s;
     }
   }
 }

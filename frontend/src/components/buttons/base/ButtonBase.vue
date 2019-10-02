@@ -6,6 +6,7 @@
     @mouseup="mouseUpHandler"
     @mouseenter="mouseEnter"
     @mouseleave="mouseLeave"
+    @click="click"
   >{{title}}</button>
 </template>
 
@@ -19,6 +20,10 @@ export default {
     styles: {
       type: String,
       default: ""
+    },
+    click: {
+      type: Function,
+      required: false
     }
   },
   data: () => ({
@@ -67,6 +72,7 @@ button {
   outline: none;
   border: none;
   cursor: pointer;
+  text-transform: uppercase;
   transition: 0.3s;
   background: white;
   &:hover {

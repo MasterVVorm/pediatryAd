@@ -1,5 +1,8 @@
 <template>
-  <div class="advertisement">
+  <div class="ad_preloader_wrapper" v-if="isDeleting">
+    <Preloader />
+  </div>
+  <div class="advertisement" v-else role="img" alt="advertisement.id">
     <div class="description">
       <div class="img_desc" :style="{backgroundImage: 'url(' + advertisement.images[0].url + ')'}"></div>
       <div class="title">{{advertisement.title}}</div>
@@ -27,6 +30,7 @@ import { getFormatedDate, getFormatedTime } from "@/utils/common.utils.js";
 import ButtonEdit from "../../components/buttons/edit/ButtonEdit";
 import ButtonPlay from "../../components/buttons/play/ButtonPlay";
 import ButtonDelete from "../../components/buttons/delete/ButtonDelete";
+import Preloader from "../../components/preloader/Preloader";
 
 export default {
   name: "home_page_item",
@@ -36,7 +40,8 @@ export default {
   components: {
     ButtonEdit,
     ButtonPlay,
-    ButtonDelete
+    ButtonDelete,
+    Preloader
   },
   computed: {
     getDesc() {
@@ -54,17 +59,37 @@ export default {
     },
     getEndTime() {
       return getFormatedTime(this.advertisement.end_time * 1000);
+    },
+    isDeleting() {
+      const updating = this.$store.getters.UPDATING;
+      return updating.status && updating.id == this.advertisement.id;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.ad_preloader_wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 1919px) {
+    margin-bottom: 2em;
+    min-height: 150px;
+    height: 10.1vw;
+  }
+  @media (min-width: 1920px) {
+    margin-bottom: 36px;
+    height: 193.5px;
+  }
+}
 .advertisement {
   position: relative;
   width: 98%;
   display: flex;
   justify-content: space-between;
+  transition: 0.3s;
 
   @media (max-width: 1919px) {
     margin-bottom: 2em;

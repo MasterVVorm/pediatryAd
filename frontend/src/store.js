@@ -9,6 +9,7 @@ import storageConstants from './constants/storage.constants.js'
 import adServicies from './servicies/advertisement.sericies.js'
 import { validateStatus } from './utils/service.utils.js'
 import router from './router'
+import { stat } from 'fs'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
 Vue.use(Vuex)
@@ -18,6 +19,10 @@ const store = new Vuex.Store({
         logged: false,
         loginIn: false,
         loading: false,
+        ad_updating: {
+            status: false,
+            id: null
+        },
         startingApp: true,
         token: null,
         error: false,
@@ -48,6 +53,9 @@ const store = new Vuex.Store({
         },
         set_ads(state, payload) {
             state.advertisements = payload
+        },
+        set_ad_updating(state, payload) {
+            state.ad_updating = payload
         }
     },
     actions: {
@@ -155,13 +163,23 @@ const store = new Vuex.Store({
                 commit('set_error', true)
                 commit('set_error_message', message)
             }
+        },
+        delete_ad: async({ commit, state }, id) => {
+            adServicies.deleteAd(id)(commit, state)
+        },
+        create_ad: async({ commit, state }, formData) => {
+            adServicies.createAd(formData)(commit, router)
+        },
+        update_active: async({ commit, state }, id) => {
+            adServicies.updateActive(id)(commit, state)
         }
     },
     getters: {
         LOGGED: state => state.logged,
         TOKEN: state => state.token,
         ADS: state => state.advertisements,
-        LOADING: state => state.loading
+        LOADING: state => state.loading,
+        UPDATING: state => state.ad_updating
     }
 })
 

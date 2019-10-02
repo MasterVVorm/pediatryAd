@@ -1,5 +1,5 @@
 <template>
-  <form @submit="onSubmit">
+  <form class="login_form" @submit="onSubmit">
     <slot></slot>
   </form>
 </template>
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-form {
+.login_form {
   position: relative;
   padding: 0;
   align-self: center;

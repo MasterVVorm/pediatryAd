@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="login_right_side_container">
     <img src="../../assets/images/login/first.svg" alt />
     <img src="../../assets/images/login/second.svg" alt />
     <img src="../../assets/images/login/third.svg" alt />
@@ -28,7 +28,7 @@
 </template>
 
 <style lang="scss" scoped>
-.container {
+.login_right_side_container {
   position: relative;
   width: 100%;
   height: 35.5vw;
