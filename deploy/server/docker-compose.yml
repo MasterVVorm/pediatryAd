@@ -9,6 +9,7 @@ services:
     command: bash -c "python backend/manage.py migrate && gunicorn --chdir backend wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/app
+      - ./../data:/data
     expose:
       - "8000"
     restart: unless-stopped

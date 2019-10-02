@@ -1,4 +1,8 @@
-        
+- name: Create data directory 
+  file: 
+    path: "{{ ansible_env.PWD }}/data"
+    state: directory
+  become: no        
     
 
 - name: Shutdown server using docker compose

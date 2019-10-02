@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.http import JsonResponse
-from .settings import API_VERSION, DEBUG, MEDIA_ROOT, MEDIA_URL
+from backend.settings.base import API_VERSION, DEBUG, MEDIA_ROOT, MEDIA_URL
 from django.conf.urls.static import static
 
 admin.autodiscover()
