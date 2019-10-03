@@ -10,8 +10,10 @@ import adServicies from './servicies/advertisement.sericies.js'
 import { validateStatus } from './utils/service.utils.js'
 import router from './router'
 import toastr from 'toastr'
+import urlConstants from './constants/url.constants'
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? urlConstants.DEV : urlConstants.PROD;
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
