@@ -9,7 +9,7 @@ import storageConstants from './constants/storage.constants.js'
 import adServicies from './servicies/advertisement.sericies.js'
 import { validateStatus } from './utils/service.utils.js'
 import router from './router'
-import { stat } from 'fs'
+import toastr from 'toastr'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
 Vue.use(Vuex)
@@ -28,6 +28,16 @@ const store = new Vuex.Store({
         error: false,
         error_message: '',
         advertisements: [],
+        current_ad: null,
+        updating: {
+            title: false,
+            description: false,
+            image: false,
+            video_url: false,
+            product_url: false,
+            index: false,
+            time: false
+        }
     },
     mutations: {
         set_starting_app(state, payload) {
@@ -51,88 +61,26 @@ const store = new Vuex.Store({
         set_error_message(state, payload) {
             state.error_message = payload
         },
+
+        set_ad_updating(state, payload) {
+            state.ad_updating = payload
+        },
         set_ads(state, payload) {
             state.advertisements = payload
         },
-        set_ad_updating(state, payload) {
-            state.ad_updating = payload
+        set_current_ad(state, payload) {
+            state.current_ad = payload
+        },
+        set_updating(state, { key, status }) {
+            state.updating[key] = status
         }
     },
     actions: {
         startApp: async({ commit, state }) => {
-            const token = JSON.parse(localStorage.getItem(storageConstants.TOKEN))
-            if (token) {
-                try {
-                    const response = await userServicies.validateToken(token)
-                    const { status, data } = response
-                    if (validateStatus(status)) {
-                        success(data.token)
-                    }
-                } catch (error) {
-                    try {
-                        const { response } = error
-                        const { data, status } = response
-                        failure(errorConstants.WRONG_LOGIN_OR_PASSWORD)
-                    } catch (e) {
-                        failure(errorConstants.SERVER)
-                    }
-                }
-            } else {
-                commit('set_starting_app', false)
-            }
-
-            function success(token) {
-                commit('set_token', token)
-                commit('set_logged', true)
-                commit('set_starting_app', false)
-                localStorage.setItem(storageConstants.TOKEN, JSON.stringify(token))
-                if (window.location.href.includes('login')) {
-                    router.push('/')
-                }
-            }
-
-            function failure(message) {
-                commit('set_starting_app', false)
-                localStorage.removeItem(storageConstants.TOKEN)
-                router.push('/login')
-            }
+            userServicies.authUser(commit, state)
         },
         login: async({ commit, state }, user) => {
-            commit('set_login_in', true)
-            try {
-                let response = await userServicies.login(user)
-                const { status } = response
-                if (validateStatus(status)) {
-                    success(response.data.token)
-                }
-            } catch (error) {
-                try {
-                    const { response } = error
-                    switch (response.status) {
-                        case 404:
-                            failure(errorConstants.WRONG_LOGIN_OR_PASSWORD)
-                            break
-                        default:
-                            failure(errorConstants.SERVER)
-                            break;
-                    }
-                } catch (e) {
-                    failure(errorConstants.SERVER)
-                }
-            }
-
-            function success(token) {
-                commit('set_token', token)
-                commit('set_logged', true)
-                commit('set_login_in', false)
-                localStorage.setItem(storageConstants.TOKEN, JSON.stringify(token))
-            }
-
-            function failure(message) {
-                commit('set_login_in', false)
-                commit('set_error', true)
-                commit('set_error_message', message)
-            }
+            userServicies.login(user)(commit, state)
         },
         get_advertisements: async({ commit, state }) => {
             commit('set_loading', true)
@@ -172,14 +120,39 @@ const store = new Vuex.Store({
         },
         update_active: async({ commit, state }, id) => {
             adServicies.updateActive(id)(commit, state)
+        },
+        get_ad: async({ commit, state }, id) => {
+            adServicies.getAd(id)(commit, state)
+        },
+        update_title: async({ commit, state }, { id, payload }) => {
+            adServicies.updateTitle(payload, id)(commit, state)
+        },
+        update_description: async({ commit, state }, { id, payload }) => {
+            adServicies.updateDescription(payload, id)(commit, state)
+        },
+        update_video_url: async({ commit, state }, { id, payload }) => {
+            adServicies.updateVideoUrl(payload, id)(commit, state)
+        },
+        update_product_url: async({ commit, state }, { id, payload }) => {
+            adServicies.updateProductUrl(payload, id)(commit, state)
+        },
+        update_index: async({ commit, state }, { id, payload }) => {
+            adServicies.updateIndex(payload, id)(commit, state)
+        },
+        update_image: async({ commit, state }, formData) => {
+            adServicies.updateImage(formData)(commit, state)
         }
     },
     getters: {
         LOGGED: state => state.logged,
+        LOGIN_IN: state => state.loginIn,
         TOKEN: state => state.token,
-        ADS: state => state.advertisements,
         LOADING: state => state.loading,
-        UPDATING: state => state.ad_updating
+        AD_UPDATING: state => state.ad_updating,
+        ADS: state => state.advertisements,
+        CURRENT_AD: state => state.current_ad,
+        UPDATING: state => state.updating
+
     }
 })
 

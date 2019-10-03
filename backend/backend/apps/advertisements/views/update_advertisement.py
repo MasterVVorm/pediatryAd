@@ -17,7 +17,7 @@ def update_title(request):
         try:
             recieved_data = json.loads(request.body)
             token = recieved_data['token']
-            ad_id = recieved_data['ad_id']
+            ad_id = recieved_data['id']
             title = recieved_data['title']
         except:
             return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
@@ -44,7 +44,7 @@ def update_description(request):
         try:
             recieved_data = json.loads(request.body)
             token = recieved_data['token']
-            ad_id = recieved_data['ad_id']
+            ad_id = recieved_data['id']
             desc = recieved_data['description']
         except:
             return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
@@ -71,7 +71,7 @@ def update_show_image(request):
         try:
             recieved_data = json.loads(request.body)
             token = recieved_data['token']
-            ad_id = recieved_data['ad_id']
+            ad_id = recieved_data['id']
             show_image = recieved_data['show_image']
         except:
             return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
@@ -98,7 +98,7 @@ def update_active(request):
         try:
             recieved_data = json.loads(request.body)
             token = recieved_data['token']
-            ad_id = recieved_data['ad_id']
+            id = recieved_data['id']
         except:
             return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
 
@@ -108,7 +108,7 @@ def update_active(request):
             return JsonResponse(status=400, data={"error": ResponseConstants.INVALID_TOKEN})
 
         try:
-            ad = Advertisement.objects.get(id=int(ad_id))
+            ad = Advertisement.objects.get(id=int(id))
             ad.active = not ad.active
             ad.save(update_fields=['active'])
             return HttpResponse()
@@ -124,7 +124,7 @@ def update_video_url(request):
         try:
             recieved_data = json.loads(request.body)
             token = recieved_data['token']
-            ad_id = recieved_data['ad_id']
+            ad_id = recieved_data['id']
             video_url = recieved_data['video_url']
         except:
             return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
@@ -146,12 +146,66 @@ def update_video_url(request):
 
 
 @csrf_exempt
+def update_product_url(request):
+    if request.method == 'POST':
+        try:
+            recieved_data = json.loads(request.body)
+            token = recieved_data['token']
+            ad_id = recieved_data['id']
+            product_url = recieved_data['product_url']
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
+
+        try:
+            user = User.objects.get(token=token)
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.INVALID_TOKEN})
+
+        try:
+            ad = Advertisement.objects.get(id=int(ad_id))
+            ad.product_url = product_url
+            ad.save(update_fields=['product_url'])
+            return HttpResponse()
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_AD_ID})
+    else:
+        return HttpResponse(status=405)
+
+
+@csrf_exempt
+def update_index(request):
+    if request.method == 'POST':
+        try:
+            recieved_data = json.loads(request.body)
+            token = recieved_data['token']
+            ad_id = recieved_data['id']
+            index = recieved_data['index']
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
+
+        try:
+            user = User.objects.get(token=token)
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.INVALID_TOKEN})
+
+        try:
+            ad = Advertisement.objects.get(id=int(ad_id))
+            ad.index = int(index)
+            ad.save(update_fields=['index'])
+            return HttpResponse()
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_AD_ID})
+    else:
+        return HttpResponse(status=405)
+
+
+@csrf_exempt
 def update_times(request):
     if request.method == 'POST':
         try:
             recieved_data = json.loads(request.body)
             token = recieved_data['token']
-            ad_id = recieved_data['ad_id']
+            ad_id = recieved_data['id']
             start_time = datetime.fromtimestamp(
                 int(recieved_data['start_time']), tz=timezone.utc)
             end_time = datetime.fromtimestamp(
@@ -172,3 +226,4 @@ def update_times(request):
 
     else:
         return HttpResponse(status=405)
+

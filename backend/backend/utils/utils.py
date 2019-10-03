@@ -11,6 +11,9 @@ def generateArrayOfAds(ads):
     coef = 20
     final_array = []
 
+    if len(ads) <=10: 
+        return ads
+        
     for ad in ads:
         sum_of_indexes += ad.index
 

@@ -4,6 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from ..models import Advertisement, ImageMedia
 from backend.apps.user.models import User
+from django.http import QueryDict
 import json
 from datetime import datetime
 
@@ -65,3 +66,34 @@ def delete_image_from_advertisement(request):
             return JsonResponse(status=400, data={"error": ResponseConstants.LITL_AMOUNT_OF_IMAGES})
     except:
         return JsonResponse(status=400, data={"error": ResponseConstants.SMTHG_WRONG})
+
+
+@csrf_exempt
+def update_image(request):
+    if request.method == 'POST':
+        try:
+            post = request.POST
+            files = request.FILES
+            token = post['token']
+            image_id = post['image_id']
+            image = files['image']
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_BODY})
+
+        try:
+            user = User.objects.get(token=token)
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.INVALID_TOKEN})
+
+        try:
+            dbImage = ImageMedia.objects.get(id=int(image_id))
+            dbImage.image = image
+            dbImage.save()
+            return JsonResponse(status=200, data={
+                "id": dbImage.id,
+                "url": "http://" + request.META['HTTP_HOST'] + dbImage.image.url
+            })
+        except:
+            return JsonResponse(status=400, data={"error": ResponseConstants.SMTHG_WRONG})
+    else:
+        return HttpResponse(status=405)

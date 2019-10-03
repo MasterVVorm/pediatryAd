@@ -39,6 +39,7 @@ def create_advertisement(request):
         index = post['index']
         active = post['active']
         show_image = post['show_image']
+        print(image.name)
     except:
         return JsonResponse(status=404, data={"error": "body is not valid"})
 
@@ -84,21 +85,21 @@ def delete_adverisement(request):
 
 def get_advertisement(request):
     try:
-        recieved_data = json.loads(request.body)
-        token = recieved_data['token']
-        ad_id = recieved_data['ad_id']
+        token = request.GET['token']
+        ad_id = request.GET['id']
     except:
         return JsonResponse(status=400, data={"error": "wrong body"})
 
     try:
         user = User.objects.get(token=token)
     except:
-        return JsonResponse(status=400, data={"error": "token is invalid"})
+        return JsonResponse(status=401, data={"error": "token is invalid"})
 
     try:
+        print(ad_id)
         ad = Advertisement.objects.get(id=ad_id)
     except:
-        return JsonResponse(status=400, data={"error": "advertisement id is invalid"})
+        return JsonResponse(status=404, data={"error": "advertisement id is invalid"})
 
     try:
         images = ImageMedia.objects.filter(advertisement=ad)
@@ -106,20 +107,25 @@ def get_advertisement(request):
         for image in images:
             image_array.append({
                 "image_id": image.id,
-                "url": image.image.url
+                "url": "http://" + request.META['HTTP_HOST'] + image.image.url
             })
     except:
         image_array = None
     response = {
-        "id": ad.id,
-        "title": ad.title,
-        "description": ad.description,
-        "images": image_array,
-        "show_image": ad.show_image,
-        "video": ad.video_url,
-        "active": ad.active,
-        "show_image": ad.show_image
+        "ad": {
+            "id": ad.id,
+            "title": ad.title,
+            "description": ad.description,
+            "images": image_array,
+            "show_image": ad.show_image,
+            "video_url": ad.video_url,
+            "active": ad.active,
+            "show_image": ad.show_image,
+            "product_url": ad.product_url,
+            "index": ad.index
+        }
     }
+    return JsonResponse(response)
 
 
 def advertisements(request):

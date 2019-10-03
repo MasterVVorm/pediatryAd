@@ -1,5 +1,5 @@
 <template>
-  <div :class="{focused: focused}">
+  <div :class="{focused: focused}" class="input_wrapper">
     <img :class="isActive" src="../../assets/images/arrow.svg" />
     <input
       :type="type"
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div {
+.input_wrapper {
   position: relative;
   width: 27.3vw;
   max-width: 524px;
@@ -115,7 +115,9 @@ div {
 .focused {
   transform: translateY(-2px);
   input {
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    outline: none !important;
   }
 }
 </style>

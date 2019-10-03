@@ -5,7 +5,7 @@
       <h1>Созать рекламную компанию</h1>
     </header>
     <CreateAdPageForm ref="form" />
-    <ButtonBase title="Создать" style="align-self: center; margin: 0 auto;" :click="create" />
+    <div class="submit_btn" @click="create">Создать</div>
   </section>
 </template>
 
@@ -28,22 +28,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-#create_ad {
-  position: relative;
-  display: grid;
-  height: 100%;
-  grid-template-rows: 140px calc(100% - 280px) 140px;
-  header {
-    position: relative;
-    width: 100%;
-    max-width: 1920px;
-    height: 100%;
-    align-self: center;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
+<style lang="scss" src="./style.scss" scoped>
+
 </style>

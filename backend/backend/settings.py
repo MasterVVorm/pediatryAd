@@ -131,6 +131,8 @@ MEDIA_URL = '/media/'
 CORS_ORIGIN_WHITELIST = [
     "https://example.com",
     "https://sub.example.com",
-    "localhost:8080",
+    "localhost:3000",
     "http://127.0.0.1:9000"
 ]
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240

@@ -1,5 +1,5 @@
 <template>
-  <div class="control_btn">
+  <div class="control_btn" @click="clickHandler">
     <svg
       v-if="active"
       width="18"
@@ -37,7 +37,13 @@
 export default {
   name: "button_play",
   props: {
-    active: Boolean
+    active: Boolean,
+    id: String
+  },
+  methods:{
+    clickHandler: function(){
+      this.$store.dispatch('update_active', this.id)
+    }
   }
 };
 </script>

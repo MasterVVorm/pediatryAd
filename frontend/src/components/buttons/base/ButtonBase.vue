@@ -6,7 +6,7 @@
     @mouseup="mouseUpHandler"
     @mouseenter="mouseEnter"
     @mouseleave="mouseLeave"
-    @click="click"
+    @click="clickHandler"
   >{{title}}</button>
 </template>
 
@@ -44,7 +44,8 @@ export default {
     mouseDownHandler: mouseDownHandler,
     mouseUpHandler: mouseUpHandler,
     mouseEnter: mouseEnter,
-    mouseLeave: mouseLeave
+    mouseLeave: mouseLeave,
+    clickHandler: clickHandler
   }
 };
 
@@ -61,6 +62,10 @@ function mouseEnter() {
 }
 function mouseLeave() {
   this.hovered = false;
+}
+
+function clickHandler() {
+  if (this.click) this.click;
 }
 </script>
 

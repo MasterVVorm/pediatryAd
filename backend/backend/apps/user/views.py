@@ -24,13 +24,13 @@ def login(request):
         try:
             user = User.objects.get(login=login)
         except:
-            return JsonResponse(status=404, data={"error": "no user with this login"})
+            return JsonResponse(status=404, data={"error": "wrong login or password"})
 
         if(user.password == password):
             token = user.token
             return JsonResponse(status=200, data={"token": user.token})
         else:
-            return JsonResponse(status=400, data={"error": "wrong password"})
+            return JsonResponse(status=404, data={"error": "wrong login or password"})
 
 
 @csrf_exempt

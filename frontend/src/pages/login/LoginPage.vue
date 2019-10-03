@@ -79,6 +79,7 @@ function setUserData(id, value) {
 
 function onSubmit() {
   if (validateData(this.login) && validateData(this.password)) {
+    console.log('submit')
     this.$store.dispatch("login", {
       login: this.login,
       password: this.password

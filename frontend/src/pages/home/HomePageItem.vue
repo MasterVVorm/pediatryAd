@@ -18,8 +18,8 @@
       <div class="line"></div>
     </div>
     <div class="actions">
-      <ButtonEdit />
-      <ButtonPlay :active="advertisement.active" />
+      <ButtonEdit :id="advertisement.id" />
+      <ButtonPlay :active="advertisement.active" :id="advertisement.id.toString()"/>
       <ButtonDelete :id="advertisement.id.toString()" />
     </div>
   </div>
@@ -61,7 +61,7 @@ export default {
       return getFormatedTime(this.advertisement.end_time * 1000);
     },
     isDeleting() {
-      const updating = this.$store.getters.UPDATING;
+      const updating = this.$store.getters.AD_UPDATING;
       return updating.status && updating.id == this.advertisement.id;
     }
   }

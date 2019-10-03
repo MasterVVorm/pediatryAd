@@ -68,14 +68,9 @@ section {
     justify-content: flex-start;
     align-items: center;
     h1 {
-      font-weight: 300;
-      transition: 0.3s;
-      @media (max-width: 1919px) {
-        font-size: 3.2vw;
-      }
-      @media (min-width: 1920px) {
-        font-size: 61px;
-      }
+    position: relative;
+    font-weight: 400;
+    font-size: 22pt;
     }
   }
   .content_wrapper {

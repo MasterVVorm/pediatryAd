@@ -45,4 +45,9 @@ body {
   width: 100%;
   height: 100%;
 }
+.toast{
+  background: green;
+  color: white;
+  border-radius: 50px;
+}
 </style>
