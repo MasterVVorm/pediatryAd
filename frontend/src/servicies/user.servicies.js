@@ -11,7 +11,6 @@ const userServicies = {
 }
 
 function login(user) {
-    console.log('login in')
     const { login, password } = user
     return async(commit, state) => {
         commit('set_login_in', true)
@@ -55,6 +54,7 @@ function login(user) {
 
 async function authUser(commit, state) {
     const token = JSON.parse(localStorage.getItem(storageConstants.TOKEN))
+    console.log(token)
     if (token) {
         try {
             const response = await axios.request({
@@ -62,20 +62,32 @@ async function authUser(commit, state) {
                 method: 'POST',
                 data: {
                     token: token
-                }
+                },
+                timeout: 10000
             })
             const { status, data } = response
             if (validateStatus(status)) {
                 success(data.token)
             }
         } catch (error) {
+            console.log(error)
             try {
                 const { response } = error
                 const { data, status } = response
+                console.log(response)
+                switch (status) {
+                    case 404 || 400:
+                        failure(storageConstants.TOKEN);
+                        break;
+                    case 500:
+                        serverError();
+                        break;
+                    default:
+                        serverError();
+                }
                 failure(errorConstants.WRONG_LOGIN_OR_PASSWORD)
             } catch (e) {
-                commit('set_starting_app', false)
-                toastr.error('Нет связи с сервером')
+                serverError()
             }
         }
     } else {
@@ -88,7 +100,8 @@ async function authUser(commit, state) {
         commit('set_logged', true)
         commit('set_starting_app', false)
         localStorage.setItem(storageConstants.TOKEN, JSON.stringify(token))
-        if (window.location.href.includes('login')) {
+        const href = window.location.href;
+        if (href.includes('login') || href.includes('/server_error')) {
             router.push('/')
         }
     }
@@ -97,6 +110,11 @@ async function authUser(commit, state) {
         commit('set_starting_app', false)
         localStorage.removeItem(storageConstants.TOKEN)
         router.push('/login')
+    }
+
+    function serverError() {
+        commit('set_starting_app', false)
+        router.push('/server_error')
     }
 }
 

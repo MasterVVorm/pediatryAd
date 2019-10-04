@@ -68,6 +68,8 @@
               <option value="4">часто</option>
               <option value="5">очень часто</option>
             </select>
+          </div>
+          <div class="create_fields_wrapper">
             <input
               type="url"
               name="video_url"
@@ -76,6 +78,7 @@
               placeholder="Добавить видео (URL)"
               @input="inputHandler"
             />
+            <InputDate :width="'calc(30% - 14px)'" :updating="false" />
           </div>
         </div>
       </form>
@@ -85,6 +88,8 @@
 
 <script>
 import toastr from "toastr";
+import { isNull } from "util";
+import InputDate from "../../components/input/date/InputDate";
 
 export default {
   name: "create_ad_form",
@@ -98,6 +103,10 @@ export default {
       file: null,
       url: null
     },
+    time: {
+      start_time: null,
+      end_time: null
+    },
     error: {
       title: false,
       description: false,
@@ -107,33 +116,18 @@ export default {
       image: false
     }
   }),
+  components: {
+    InputDate
+  },
+  computed: {
+    timeIsEmpty() {
+      return isNull(this.time.start_time);
+    }
+  },
   methods: {
-    inputHandler({ target }) {
-      const { id, value } = target;
-      if (value.length == 0) {
-        this.error[id] = true;
-      } else {
-        this.error[id] = false;
-      }
-      this.$data[id] = value;
-    },
-    uploadBtnClickHandler() {
-      this.$refs.file_upload.click();
-    },
-    changeHandler({ target }) {
-      const file_upload = this.$refs.file_upload;
-      if (file_upload.files && file_upload.files[0]) {
-        let reader = new FileReader();
-        reader.onload = e => {
-          this.photo = {
-            file: file_upload.files[0],
-            url: e.target.result
-          };
-        };
-        reader.readAsDataURL(file_upload.files[0]);
-        this.error.image = false;
-      }
-    },
+    uploadBtnClickHandler: uploadBtnClickHandler,
+    inputHandler: inputHandler,
+    changeHandler: changeHandler,
     createAd: createAd
   },
   created() {
@@ -142,6 +136,39 @@ export default {
     });
   }
 };
+
+function showTimePicker() {
+  this.show_time_picker = !this.show_time_picker;
+}
+
+function uploadBtnClickHandler() {
+  this.$refs.file_upload.click();
+}
+
+function inputHandler({ target }) {
+  const { id, value } = target;
+  if (value.length == 0) {
+    this.error[id] = true;
+  } else {
+    this.error[id] = false;
+  }
+  this.$data[id] = value;
+}
+
+function changeHandler({ target }) {
+  const file_upload = this.$refs.file_upload;
+  if (file_upload.files && file_upload.files[0]) {
+    let reader = new FileReader();
+    reader.onload = e => {
+      this.photo = {
+        file: file_upload.files[0],
+        url: e.target.result
+      };
+    };
+    reader.readAsDataURL(file_upload.files[0]);
+    this.error.image = false;
+  }
+}
 
 function createAd() {
   this.error = validateData(this.$data);

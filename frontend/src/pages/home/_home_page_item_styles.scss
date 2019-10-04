@@ -1,0 +1,155 @@
+.ad_preloader_wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 1919px) {
+        margin-bottom: 2em;
+        min-height: 150px;
+        height: 10.1vw;
+    }
+    @media (min-width: 1920px) {
+        margin-bottom: 36px;
+        height: 193.5px;
+    }
+}
+
+.advertisement {
+    position: relative;
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+    transition: 0.3s;
+    margin-top: 24px;
+    .description {
+        position: relative;
+        width: 859px;
+        height: 129px;
+        background: #ffffff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        display: grid;
+        grid-template-columns: 129px auto;
+        grid-template-rows: 45% 55%;
+        .img_desc {
+            position: relative;
+            grid-row-start: 1;
+            grid-row-end: 3;
+            align-self: center;
+            margin-left: 20px;
+            width: 89px;
+            height: 89px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: 50% 50%;
+        }
+        .title {
+            position: relative;
+            align-self: center;
+            font-weight: 400;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 20px;
+            line-height: 24px;
+        }
+        .desc {
+            position: relative;
+            font-weight: 300;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 14px;
+            line-height: 16px;
+            width: 98%;
+        }
+    }
+    .time {
+        position: relative;
+        width: 125px;
+        height: 129px;
+        background: #ffffff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+        border-radius: 20px;
+        display: grid;
+        grid-template-rows: 10% repeat(5, 16%) 10%;
+        grid-template-columns: 25% 75%;
+        .img_start,
+        .img_end {
+            position: relative;
+            background: url('../../assets/images/time.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            align-self: center;
+            width: 15px;
+            height: 15px;
+            margin-left: calc(50% - 7.5px);
+        }
+        .date_start,
+        .date_end {
+            position: relative;
+            align-self: center;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        .hours_start,
+        .hours_end {
+            position: relative;
+            font-weight: 400;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 14px;
+        }
+        .img_start {
+            grid-row-start: 2;
+        }
+        .date_start {
+            grid-row-start: 2;
+        }
+        .hours_start {
+            grid-column-start: 2;
+            grid-row-start: 3;
+        }
+        .img_end {
+            grid-row-start: 5;
+            grid-column-start: 1;
+        }
+        .date_end {
+            grid-column-start: 2;
+            grid-row-start: 5;
+        }
+        .hours_end {
+            grid-column-start: 2;
+            grid-row-start: 6;
+        }
+        .line {
+            position: relative;
+            background: url('../../assets/images/line.svg');
+            grid-column-start: 1;
+            grid-row-start: 3;
+            grid-row-end: 5;
+            background-size: contain;
+            width: 4%;
+            height: 100%;
+            margin-left: 48%;
+        }
+    }
+    .actions {
+        position: relative;
+        width: 44px;
+        height: 129px;
+        background: #ffffff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}

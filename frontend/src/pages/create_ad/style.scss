@@ -15,8 +15,11 @@
         align-items: center;
         h1 {
             position: relative;
-            font-weight: 400;
-            font-size: 22pt;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 35px;
+            line-height: 41px;
         }
     }
     .submit_btn {
@@ -60,7 +63,6 @@
     padding: 20px;
     max-height: 500px;
     height: 100%;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -79,17 +81,17 @@
         grid-template-columns: 20% 80%;
         width: 100%;
         max-height: 100%;
-        overflow: auto;
         input,
         textarea {
             border: 2px solid $blurColor;
             box-sizing: border-box;
             border-radius: 10px;
             outline: none;
+            font-family: Roboto;
             font-style: normal;
             font-weight: normal;
-            font-size: 18px;
-            line-height: 21px;
+            font-size: 16px;
+            line-height: 19px;
             padding-left: 10px;
             padding-right: 10px;
             color: $textColor;
@@ -100,7 +102,7 @@
                 color: $placeholderColor;
             }
             &:focus {
-                box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
+                box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.1);
             }
         }
         input {
@@ -153,7 +155,7 @@
                     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
                 }
             }
-            input[type="url"] {
+            input[type='url'] {
                 position: relative;
                 width: 197px;
                 margin-top: 14px;
@@ -174,7 +176,7 @@
                 outline: none;
                 resize: none;
                 padding: 10px;
-                font-family: "Roboto";
+                font-family: 'Roboto';
             }
             .create_fields_wrapper {
                 position: relative;
@@ -186,13 +188,11 @@
                 margin-top: 14px;
                 #video_url,
                 #product_url {
-                    width: 75%;
-                }
-                #video_url {
-                    margin-top: 14px;
+                    width: 70%;
                 }
                 #index {
                     position: relative;
+                    width: calc(30% - 14px);
                     background: transparent;
                     border: 2px solid $blurColor;
                     border-radius: 10px;
@@ -204,10 +204,37 @@
                     -webkit-appearance: none;
                     -moz-appearance: none;
                     text-indent: 1px;
-                    text-overflow: "";
+                    text-overflow: '';
                     cursor: pointer;
                     option {
                         border: 2px solid $blurColor;
+                    }
+                }
+                #time {
+                    position: relative;
+                    width: calc(30% - 18px);
+                    border: 2px solid $blurColor;
+                    border-radius: 10px;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    margin-left: 14px;
+                    cursor: pointer;
+                    user-select: none;
+                    transition: 0.3s;
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+                    }
+                    p {
+                        position: relative;
+                        padding: 0;
+                        margin: 0;
+                        font-family: Roboto;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 16px;
+                        line-height: 19px;
                     }
                 }
             }
@@ -217,4 +244,22 @@
 
 .error {
     border-color: $mainColor !important;
+}
+
+.time_empty {
+    color: $placeholderColor !important;
+}
+
+.time_not_empty {
+    color: $textColor;
+}
+
+.time_picker {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .2);
 }

@@ -21,6 +21,16 @@ const EditAd = () => ({
     loading: Preloader
 })
 
+const notFound = () => ({
+    component: import ('./pages/not_found/NotFoundPage.vue'),
+    loading: Preloader
+})
+
+const ServerError = () => ({
+    component: import ('./pages/server_error/ServerErrorPage.vue'),
+    loading: Preloader
+})
+
 Vue.use(Router)
 
 const router = new Router({
@@ -44,8 +54,32 @@ const router = new Router({
             path: '/create',
             name: 'create',
             component: CreateAd
+        },
+        {
+            path: '/server_error',
+            name: 'server_error',
+            component: ServerError
+        },
+        {
+            path: '*',
+            name: 'not_found',
+            component: notFound
         }
-    ]
+    ],
+    beforeEach: beforeEach
 })
+
+function beforeEach(to, from, next) {
+    if (store.state.startingApp) {
+        next()
+        return
+    }
+    if (store.state.logged) {
+        next()
+        return
+    }
+    next('/login')
+
+}
 
 export default router

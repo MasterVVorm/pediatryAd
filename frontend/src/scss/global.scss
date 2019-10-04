@@ -1,6 +1,6 @@
+$headerHeight: 120px;
 ::-webkit-scrollbar {
-    width: 0.625vw;
-    max-width: 12px;
+    width: 8px;
     background: transparent;
 }
 
@@ -21,7 +21,7 @@
 
 .control_btn {
     position: relative;
-    padding: 10px;
+    padding: 7px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -39,13 +39,7 @@
     svg {
         position: relative;
         transition: 0.3s;
-        @media (max-width: 1919px) {
-            width: 1.2vw;
-            height: 1.2vw;
-        }
-        @media (min-width: 1920px) {
-            width: 23px;
-            height: 23px;
-        }
+        width: 22px;
+        height: 22px;
     }
 }

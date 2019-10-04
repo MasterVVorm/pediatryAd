@@ -44,62 +44,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-section {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  max-height: 100vh;
-  @media (max-width: 1919px) {
-    grid-template-rows: minmax(120px, 8.6vw) calc(100vh - 120px);
-  }
-  @media (min-width: 1920px) {
-    grid-template-rows: 165px auto;
-  }
-  header {
-    position: relative;
-    padding: 0;
-    width: 86.25vw;
-    height: 100%;
-    max-width: 1656px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    h1 {
-    position: relative;
-    font-weight: 400;
-    font-size: 22pt;
-    }
-  }
-  .content_wrapper {
-    position: relative;
-    width: 87.25vw;
-    max-width: 1656px;
-    height: 100%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    .no_content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateY(-50%) translateX(-50%);
-      color: $textColor;
-    }
-    .content {
-      position: relative;
-      width: calc(99.5% - 10px);
-      height: calc(100% - 20px);
-      display: flexbox;
-      flex-wrap: wrap;
-      overflow-y: auto;
-      padding-top: 20px;
-      padding-left: 10px;
-      transition: 0.3s;
-    }
-  }
-}
+<style lang="scss" src="./_home_page_styles.scss" scoped>
+
 </style>

@@ -12,3 +12,29 @@ export const getFormatedTime = timestamp => {
     const minutes = date.getMinutes() > 9 ? date.getMinutes() : '0' + date.getMinutes()
     return `${hours}:${minutes}`
 }
+
+export const formatDate = date => {
+    const newDate = clearNumbers(date).slice(0, 16)
+    let final = [...newDate].map((c, index) => {
+        if (index == 4 || index == 6 || index == 12 || index == 14) {
+            return '.' + c
+        }
+        if (index == 8) {
+            return ' - ' + c
+        }
+        return c
+    }).join('')
+    stringToTimestamp(final)
+    return final
+}
+
+export const clearNumbers = string => {
+    return [...string].filter(char => !!char.match(/[0-9]/)).join('')
+}
+
+export const stringToTimestamp = string => {
+    let clearedStrings = string.replace('.', '/').replace(' ', '').split('-')
+    let start = new Date(clearedStrings[0])
+    let end = new Date(clearedStrings[1])
+    console.log(start + '- ' + end)
+}
