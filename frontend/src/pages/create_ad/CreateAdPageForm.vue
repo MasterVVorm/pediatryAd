@@ -115,25 +115,7 @@ export default {
       } else {
         this.error[id] = false;
       }
-      switch (id) {
-        case "title":
-          this.title = value;
-          break;
-        case "description":
-          this.description = value;
-          break;
-        case "owner_url":
-          this.owner_url = value;
-          break;
-        case "video_url":
-          this.video_url = value;
-          break;
-        case "index":
-          this.index = value;
-          break;
-        default:
-          break;
-      }
+      this.$data[id] = value;
     },
     uploadBtnClickHandler() {
       this.$refs.file_upload.click();
@@ -165,7 +147,7 @@ function createAd() {
   this.error = validateData(this.$data);
   for (let key in this.error) {
     if (this.error[key]) {
-      toastr.error("Все поля должны быть заполнены");
+      toastr.error("Все необходимые поля должны быть заполнены");
       return;
     }
   }
@@ -199,9 +181,6 @@ function validateData(data) {
   }
   if (data.description.length == 0) {
     error.description = true;
-  }
-  if (data.video_url.length == 0) {
-    error.video_url = true;
   }
   if (data.product_url.length == 0) {
     error.product_url = true;

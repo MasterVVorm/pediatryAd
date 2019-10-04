@@ -14,7 +14,7 @@ class AdvertisementManager(models.Manager):
 class Advertisement(models.Model):
     title = models.CharField(max_length=300)
     description = models.CharField(max_length=1000)
-    video_url = models.CharField(max_length=254, null=False, blank=True)
+    video_url = models.CharField(max_length=254, null=True, blank=True)
     product_url = models.CharField(max_length=254)
     start_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     end_time = models.DateTimeField(auto_now=False, auto_now_add=False)

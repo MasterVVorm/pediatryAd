@@ -2,7 +2,7 @@
   <section id="create_ad">
     <header>
       <ButtonBack />
-      <h1>Созать рекламную компанию</h1>
+      <h1>Создать рекламную компанию</h1>
     </header>
     <CreateAdPageForm ref="form" />
     <div class="submit_btn" @click="create">Создать</div>

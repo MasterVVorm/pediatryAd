@@ -5,8 +5,8 @@ from .views.public import get_ads
 from .views import update_advertisement
 urlpatterns = [
     path('get_ads', get_ads, name="ads"),
-    path('advertisement', advertisement, name="advertisement"),
-    path('advertisements', advertisements, name="advertisements"),
+    path('company', advertisement, name="advertisement"),
+    path('companies', advertisements, name="advertisements"),
     path('update_title', update_advertisement.update_title, name="update_title"),
     path('update_description', update_advertisement.update_description,
          name="update_decription"),

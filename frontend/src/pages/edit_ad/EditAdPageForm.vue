@@ -31,6 +31,7 @@
               name="title"
               id="title"
               type="text"
+              :class="{'error': error.title}"
               placeholder="Заголовок..."
               @focus="focusHandler"
               @input="inputHandler"
@@ -44,6 +45,7 @@
               v-else
               name="description"
               id="description"
+              :class="{'error': error.description}"
               cols="50"
               rows="5"
               placeholder="Рекламный текст..."
@@ -61,6 +63,7 @@
                 type="url"
                 name="product_url"
                 id="product_url"
+                :class="{'error': error.product_url}"
                 placeholder="Ссылка на ресурс рекламодателя"
                 :value="getAd.product_url"
                 @focus="focusHandler"
@@ -116,6 +119,8 @@
 
 <script>
 import Preloader from "../../components/preloader/Preloader";
+import toastr from "toastr";
+
 export default {
   name: "edit_ad_form",
   components: {
@@ -132,6 +137,14 @@ export default {
     image: {
       file: null,
       url: null
+    },
+    error: {
+      title: false,
+      description: false,
+      product_url: false,
+      start_time: false,
+      end_time: false,
+      image: false
     }
   }),
   computed: {
@@ -161,11 +174,18 @@ function focusHandler({ target }) {
 }
 
 function inputHandler({ target }) {
-  this.$data[target.id] = target.value;
+  const { id } = target;
+  this.$data.error[id] = false;
+  this.$data[id] = target.value;
 }
 
 function blurHandler({ target }) {
-  const { id } = target;
+  const { id, value } = target;
+  if (value.length == 0 && id !== "video_url") {
+    this.$data.error[id] = true;
+    toastr.error("Поле не может быть пустым");
+    return;
+  }
   if (this.$store.getters.CURRENT_AD[id] !== this.$data[id]) {
     const id = this.$store.getters.CURRENT_AD.id;
     const payload = this.$data[target.id];

@@ -39,7 +39,8 @@ def create_advertisement(request):
         index = post['index']
         active = post['active']
         show_image = post['show_image']
-        print(image.name)
+        if video_url == 'null':
+            video_url = None
     except:
         return JsonResponse(status=404, data={"error": "body is not valid"})
 

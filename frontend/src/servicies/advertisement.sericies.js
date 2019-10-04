@@ -20,7 +20,7 @@ const adServicies = {
 
 function getAllAds(token) {
     return axios.request({
-        url: '/advertisements',
+        url: '/companies',
         params: {
             token: token
         }
@@ -34,7 +34,7 @@ function createAd(formData) {
         try {
             const response = await axios.request({
                 method: 'POST',
-                url: '/advertisement',
+                url: '/company',
                 data: formData,
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded'
@@ -73,7 +73,7 @@ function deleteAd(id) {
         try {
             const response = await axios.request({
                 method: 'DELETE',
-                url: '/advertisement',
+                url: '/company',
                 data: {
                     token: token,
                     id: id
@@ -113,7 +113,7 @@ function getAd(id) {
         try {
             const response = await axios.request({
                 method: 'GET',
-                url: '/advertisement',
+                url: '/company',
                 params: {
                     token: token,
                     id: id
