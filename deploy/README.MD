@@ -22,3 +22,8 @@ ansible-galaxy install -r deploy/requirements.yml
 ansible-playbook deploy/main.yml -K -u username
 ```
 
+6) (Optional) install jenkins
+Add "jenkins" group in `/etc/ansible/hosts/`
+```
+ansible-playbook deploy/main.yml -K -u username -t jenkins  -e jenkins_admin_password=some_super_secure_password
+```
