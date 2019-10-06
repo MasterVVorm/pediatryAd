@@ -2,4 +2,3 @@
   - src: geerlingguy.pip
   - src: geerlingguy.docker
   - src: geerlingguy.repo-epel
-  - src: geerlingguy.jenkins

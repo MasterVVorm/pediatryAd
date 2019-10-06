@@ -1,0 +1,51 @@
+
+    - name: Check jenkins password is given
+      assert:
+        that:
+          - jenkins_admin_password != ""
+        fail_msg: "Please specifi jenkins jenkins_admin_password"
+
+    - name: configure default users
+      template:
+        src: basic-security.groovy.j2
+        dest: "pediatryAd/basic-security.groovy"
+        mode: 0775
+
+
+    - name: Remove Docker image for jenkins 
+      docker_image:
+        name: jenkins
+        state: absent
+        force_absent: yes
+
+    - name: Build Docker image for jenkins 
+      docker_image:
+        name: jenkins
+        state: present
+        build:
+          path: pediatryAd        
+          dockerfile: deploy/jenkins/Dockerfile        
+          pull: yes
+        source: build
+
+    - name: Run jenkins contaiter
+      docker_container:
+        name: jenkins
+        image: jenkins:latest
+        ports:
+         - "8080:8080"
+         - "50000:50000"
+        recreate: yes
+        restart_policy: unless-stopped
+        env:
+          JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+  
+    - name: Remove initialization file
+      file:
+        path: "pediatryAd/basic-security.groovy"
+        state: absent
+
+
+
+ 
+
