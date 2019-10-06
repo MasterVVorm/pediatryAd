@@ -8,11 +8,11 @@ RUN apt-get update
 
 #RUN apt-get update && apt-get install -y ruby make more-thing-here
 
-#MKDIR /var/jenkins_home/init.groovy.d
-#RUN mkdir /var/jenkins_home/init.groovy.d
 COPY basic-security.groovy /var/jenkins_home/init.groovy.d/basic-security.groovy
 
 USER jenkins
+
+RUN /usr/local/bin/install-plugins.sh github ansible
 
 
 
