@@ -43,8 +43,8 @@
 
 <style lang="scss" scoped>
 $color: #b3a0cc;
-$containerDim: 50px;
-$dotDim: 8px;
+$containerDim: 40px;
+$dotDim: 6px;
 
 #preloader {
   position: relative;

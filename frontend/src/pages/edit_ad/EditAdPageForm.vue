@@ -71,27 +71,12 @@
                 @blur="blurHandler"
               />
             </div>
-
-            <div class="index_wrapper">
-              <Preloader v-if="getUpdateLoading.index" />
-              <select
-                v-else
-                name="index"
-                id="index"
-                ref="select"
-                @focus="focusHandler"
-                @input="inputHandler"
-                @change="selectChangeHandler"
-                :value="getAd.index"
-              >
-                <option value selected disabled hidden>Как часто показывать</option>
-                <option value="1">редко</option>
-                <option value="2">иногда</option>
-                <option value="3">нормально</option>
-                <option value="4">часто</option>
-                <option value="5">очень часто</option>
-              </select>
-            </div>
+            <selector-base
+              :updating="getUpdateLoading.index"
+              :setIndex="setIndex"
+              :error="error.index"
+              :currentValue="getAd.index"
+            />
           </div>
           <div class="create_fields_wrapper">
             <div class="video_url_wrapper">
@@ -130,6 +115,7 @@
 <script>
 import Preloader from "../../components/preloader/Preloader";
 import InputDate from "../../components/input/date/InputDate";
+import SelectorBase from "../../components/selectors/SelectorBase";
 import {
   stringToTimestamp,
   clearNumbers,
@@ -141,7 +127,8 @@ export default {
   name: "edit_ad_form",
   components: {
     Preloader,
-    "input-date": InputDate
+    "input-date": InputDate,
+    "selector-base": SelectorBase
   },
   data: () => ({
     title: "",
@@ -179,6 +166,7 @@ export default {
     },
     getDefaultTimes() {
       const currentAd = this.$store.getters.CURRENT_AD;
+      console.log(timestampToString(currentAd.start_time, currentAd.end_time));
       return timestampToString(currentAd.start_time, currentAd.end_time);
     }
   },
@@ -190,9 +178,18 @@ export default {
     uploadBtnClickHandler: uploadBtnClickHandler,
     changeHandler: changeHandler,
     setTimes: setTimes,
-    onTimeChange: onTimeChange
+    onTimeChange: onTimeChange,
+    setIndex: setIndex
   }
 };
+
+function setIndex(index) {
+  if (this.$store.getters.CURRENT_AD.index != index) {
+    const id = this.$store.getters.CURRENT_AD.id;
+    this.$store.dispatch("update_index", { id, payload: index });
+  }
+}
+
 function focusHandler({ target }) {
   console.log(target.value);
   const { id, value } = target;
@@ -274,13 +271,13 @@ function onTimeChange() {
   console.log(this.time.text);
   const { start_time, end_time } = this.$store.getters.CURRENT_AD;
   console.log(this.time.start_time + " " + start_time);
-  if(!this.time.text){
-    return
+  if (!this.time.text) {
+    return;
   }
-  if( this.time.text.length < 16){
-    this.error.time = true
-    toastr.error('Новые даты введены некорректно')
-    return
+  if (this.time.text.length < 16) {
+    this.error.time = true;
+    toastr.error("Новые даты введены некорректно");
+    return;
   }
   if (validateTime(this.time, { start_time, end_time })) {
     this.$store.dispatch("update_time", {

@@ -1,67 +1,14 @@
 <template>
-  <container :width="width">
+  <div id="date_wrapper">
     <preloader v-if="updating" />
-    <input-date
-      v-else
-      ref="input"
-      :placeholder="placeholder"
-      :value="defaultValue"
-      @blur="onBlur"
-      @input="inputHandler"
-      type="text"
-      :error="isError"
-    />
-  </container>
+    <input :class="{'error': error}" v-else v-model="date" type="text" @blur="onBlur" :placeholder="placeholder" />
+  </div>
 </template>
 <script>
 import styled from "vue-styled-components";
 import { colors } from "@/constants/color.constants.js";
 import Preloader from "../../preloader/Preloader";
 import { formatDate } from "@/utils/common.utils.js";
-
-const containerProps = {
-  width: String
-};
-const inputProps = {
-  error: Boolean
-};
-
-const Container = styled("div", containerProps)`
-  position: relative;
-  width: ${props => props.width};
-  height: 42px;
-  margin-left: 14px;
-`;
-
-const StyledInput = styled("input", inputProps)`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  outline: none;
-  border: none;
-  border: 2px solid $blurColor;
-  box-sizing: border-box;
-  border-radius: 10px;
-  outline: none;
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 19px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: ${colors.TEXT};
-  background: #ffffff;
-  transition: 0.3s;
-  box-shadow: none;
-  border: 2px solid ${props => (props.error ? colors.MAIN : colors.BLUR)};
-  &::placeholder {
-    color: ${colors.PLACEHOLDER};
-  }
-  &:focus {
-    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.1);
-  }
-`;
 
 export default {
   name: "date_input",
@@ -99,11 +46,9 @@ export default {
     error: { type: Boolean }
   },
   data: () => ({
-    value: ""
+    date: ""
   }),
   components: {
-    container: Container,
-    "input-date": StyledInput,
     preloader: Preloader
   },
   computed: {
@@ -114,13 +59,28 @@ export default {
       return this.error;
     }
   },
+  watch: {
+    date: function(val) {
+      this.date = formatDate(val);
+      this.set_value(val);
+    },
+    defaultValue: function(val, old) {
+      console.log(val + "||" + old);
+      this.date = val;
+    }
+  },
+  created: function() {
+    this.date = this.defaultValue;
+  },
   methods: {
     inputHandler({ target }) {
       const { value } = target;
       target.value = formatDate(value);
       this.value = formatDate(value);
-      this.set_value(value);
-    },
+    }
   }
 };
 </script>
+
+<style lang="scss" src="./style.scss">
+</style>

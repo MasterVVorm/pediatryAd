@@ -60,14 +60,7 @@
               placeholder="Ссылка на ресурс рекламодателя"
               @input="inputHandler"
             />
-            <select name="index" id="index" :class="{'error': error.index}" @input="inputHandler">
-              <option value selected disabled hidden>Как часто показывать</option>
-              <option value="1">редко</option>
-              <option value="2">иногда</option>
-              <option value="3">нормально</option>
-              <option value="4">часто</option>
-              <option value="5">очень часто</option>
-            </select>
+            <select-base :setIndex="setIndex" :error="error.index" />
           </div>
           <div class="create_fields_wrapper">
             <input
@@ -79,7 +72,6 @@
               @input="inputHandler"
             />
             <InputDate
-              :width="'calc(30% - 14px)'"
               :updating="false"
               :error="error.time"
               :set_value="setTimes"
@@ -96,6 +88,7 @@ import toastr from "toastr";
 import { isNull } from "util";
 import InputDate from "../../components/input/date/InputDate";
 import { stringToTimestamp, clearNumbers } from "../../utils/common.utils";
+import SelectBase from "../../components/selectors/SelectorBase";
 
 export default {
   name: "create_ad_form",
@@ -125,7 +118,8 @@ export default {
     }
   }),
   components: {
-    InputDate
+    InputDate,
+    "select-base": SelectBase
   },
   computed: {
     timeIsEmpty() {
@@ -137,7 +131,8 @@ export default {
     inputHandler: inputHandler,
     changeHandler: changeHandler,
     createAd: createAd,
-    setTimes: setTimes
+    setTimes: setTimes,
+    setIndex: setIndex
   },
   created() {
     this.$on("submit_creation", () => {
@@ -148,6 +143,12 @@ export default {
 
 function showTimePicker() {
   this.show_time_picker = !this.show_time_picker;
+}
+
+function setIndex(index){
+  this.error.time = false
+  this.index = index
+  console.log(this.error.time)
 }
 
 function uploadBtnClickHandler() {
@@ -237,7 +238,7 @@ function validateData(data) {
 }
 
 function setTimes(time) {
-  this.error.time = time.length == 0
+  this.error.time = time.length == 0;
 
   const { start_time, end_time } = stringToTimestamp(time);
   this.time = {

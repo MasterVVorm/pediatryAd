@@ -30,6 +30,7 @@ function getAllAds(token) {
 }
 
 function createAd(formData) {
+
     return async(commit, router) => {
         commit('set_loading', true)
         try {
@@ -422,8 +423,8 @@ function updateTime(time, id) {
 
         function success(message) {
             let newCurrentAd = state.current_ad
-            newCurrentAd['start_time'] = start_time
-            newCurrentAd['end_time'] = end_time
+            newCurrentAd['start_time'] = start_time * 1000
+            newCurrentAd['end_time'] = end_time * 1000
             commit('set_current_ad', newCurrentAd)
             commit('set_updating', { key: KEY, status: false })
             toastr.success(message)
