@@ -3,6 +3,7 @@ import storageConstants from '../constants/storage.constants.js'
 import errorConstants from '../constants/error.constants.js'
 import toastr from 'toastr'
 import { validateStatus, successUpdating, failureUpdating } from '../utils/service.utils.js'
+import { async } from 'q'
 
 const adServicies = {
     getAllAds,
@@ -15,7 +16,8 @@ const adServicies = {
     updateVideoUrl,
     updateProductUrl,
     updateIndex,
-    updateImage
+    updateImage,
+    updateTime
 }
 
 function getAllAds(token) {
@@ -28,7 +30,6 @@ function getAllAds(token) {
 }
 
 function createAd(formData) {
-    console.log(formData)
     return async(commit, router) => {
         commit('set_loading', true)
         try {
@@ -47,12 +48,12 @@ function createAd(formData) {
                 failure()
             }
         } catch (error) {
-            console.log(error.response)
             failure()
         }
 
         function success() {
             commit('set_loading', false)
+            toastr.success('Рекламная компания создана')
             router.push('/')
         }
 
@@ -94,6 +95,7 @@ function deleteAd(id) {
             const newAds = state.advertisements.filter(ad => ad.id != id)
             commit('set_ads', newAds)
             commit('set_ad_updating', { status: false, id: null })
+            toastr.success('Рекламная компания удалена')
         }
 
         function failure() {
@@ -129,7 +131,6 @@ function getAd(id) {
         } catch (error) {
             try {
                 const { response } = error
-                console.log(response.data)
                 switch (response.status) {
                     case 400:
                         failure(errorConstants.SMTH_WRONG)
@@ -151,7 +152,6 @@ function getAd(id) {
         }
 
         function success(ad) {
-            console.log(ad)
             commit('set_current_ad', ad)
             commit('set_loading', false)
         }
@@ -197,6 +197,7 @@ function updateActive(id) {
             const newAds = state.advertisements.map(ad => ad.id == id ? updatedAd : ad)
             commit('set_ads', newAds)
             commit('set_ad_updating', { status: false, id: null })
+            toastr.success('Статус активности рекламной компании обновлен')
         }
 
         function failure() {
@@ -242,7 +243,7 @@ function updateDescription(description, id) {
     const token = JSON.parse(localStorage.getItem(storageConstants.TOKEN))
     const KEY = 'description'
     return async(commit, state) => {
-        commit('set_updating', { key: 'description', status: true })
+        commit('set_updating', { key: KEY, status: true })
         try {
             const response = await axios.request({
                 method: 'POST',
@@ -381,7 +382,6 @@ function updateImage(formData) {
         } catch (error) {
             try {
                 const { response } = error
-                console.log(response.data)
                 failureUpdating(errorConstants.SMTH_WRONG, KEY, commit)
             } catch (error) {
                 failureUpdating(errorConstants.SERVER, KEY, commit)
@@ -390,16 +390,45 @@ function updateImage(formData) {
     }
 }
 
-function addImage() {
+function updateTime(time, id) {
+    const { start_time, end_time } = time
+    const token = JSON.parse(localStorage.getItem(storageConstants.TOKEN))
+    const KEY = 'time'
+    return async(commit, state) => {
+        commit('set_updating', { key: KEY, status: true })
+        try {
+            const response = await axios.request({
+                method: 'POST',
+                url: '/update_times',
+                data: {
+                    token,
+                    id,
+                    start_time,
+                    end_time
+                }
+            })
+            const { status } = response
+            if (validateStatus(status)) {
+                success('Период активности компании обновлен')
+            }
+        } catch (error) {
+            try {
+                const { response } = error
+                failureUpdating('Что-то пошло не так', KEY, commit)
+            } catch (error) {
+                failureUpdating(errorConstants.SERVER, KEY, commit)
+            }
+        }
 
-}
-
-function deleteImage() {
-
-}
-
-function updateTimes() {
-
+        function success(message) {
+            let newCurrentAd = state.current_ad
+            newCurrentAd['start_time'] = start_time
+            newCurrentAd['end_time'] = end_time
+            commit('set_current_ad', newCurrentAd)
+            commit('set_updating', { key: KEY, status: false })
+            toastr.success(message)
+        }
+    }
 }
 
 export default adServicies

@@ -32,6 +32,7 @@ def create_advertisement(request):
         video_url = post['video_url']
         product_url = post['product_url']
         image = files['image']
+        print(post['start_time'])
         start_time = datetime.fromtimestamp(
             int(post['start_time']), tz=timezone.utc)
         end_time = datetime.fromtimestamp(
@@ -108,7 +109,7 @@ def get_advertisement(request):
         for image in images:
             image_array.append({
                 "image_id": image.id,
-                "url": "http://" + request.META['HTTP_HOST'] + image.image.url
+                "url": "http://" + request.META['HTTP_HOST']  + image.image.url
             })
     except:
         image_array = None
@@ -123,7 +124,9 @@ def get_advertisement(request):
             "active": ad.active,
             "show_image": ad.show_image,
             "product_url": ad.product_url,
-            "index": ad.index
+            "index": ad.index,
+            "start_time": ad.start_time,
+            "end_time": ad.end_time
         }
     }
     return JsonResponse(response)

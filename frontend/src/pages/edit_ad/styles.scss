@@ -184,8 +184,10 @@ $inputHeight: 43px;
                     .video_url_wrapper,
                     .product_url_wrapper {
                         position: relative;
-                        width: 65%;
+                        width: 70%;
                         height: $inputHeight;
+                    }
+                    .product_url_wrapper {
                         margin-top: 14px;
                     }
                     #video_url,
@@ -197,7 +199,7 @@ $inputHeight: 43px;
                         position: relative;
                         margin-left: 14px;
                         margin-top: 14px;
-                        width: 150px;
+                        width: calc(30% - 14px);
                         #index {
                             position: relative;
                             height: 100%;

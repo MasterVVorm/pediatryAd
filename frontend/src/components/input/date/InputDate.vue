@@ -1,7 +1,16 @@
 <template>
   <container :width="width">
     <preloader v-if="updating" />
-    <input-date v-else ref="input" :placeholder="placeholder" @input="inputHandler" type="text" />
+    <input-date
+      v-else
+      ref="input"
+      :placeholder="placeholder"
+      :value="defaultValue"
+      @blur="onBlur"
+      @input="inputHandler"
+      type="text"
+      :error="isError"
+    />
   </container>
 </template>
 <script>
@@ -9,9 +18,14 @@ import styled from "vue-styled-components";
 import { colors } from "@/constants/color.constants.js";
 import Preloader from "../../preloader/Preloader";
 import { formatDate } from "@/utils/common.utils.js";
+
 const containerProps = {
   width: String
 };
+const inputProps = {
+  error: Boolean
+};
+
 const Container = styled("div", containerProps)`
   position: relative;
   width: ${props => props.width};
@@ -19,7 +33,7 @@ const Container = styled("div", containerProps)`
   margin-left: 14px;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled("input", inputProps)`
   position: relative;
   width: 100%;
   height: 100%;
@@ -40,7 +54,7 @@ const StyledInput = styled.input`
   background: #ffffff;
   transition: 0.3s;
   box-shadow: none;
-  border: 2px solid ${colors.BLUR};
+  border: 2px solid ${props => (props.error ? colors.MAIN : colors.BLUR)};
   &::placeholder {
     color: ${colors.PLACEHOLDER};
   }
@@ -65,12 +79,27 @@ export default {
     placeholder: {
       type: String,
       required: false,
-      default: "Введите даты",
+      default: "ГГГГ.ММ.ДД - ГГГГ.ММ.ДД",
       input: ""
-    }
+    },
+    defaultValue: {
+      type: String,
+      required: false,
+      default: ""
+    },
+    set_value: {
+      type: Function,
+      required: true
+    },
+    onBlur: {
+      type: Function,
+      required: false,
+      default: function() {}
+    },
+    error: { type: Boolean }
   },
   data: () => ({
-    input: ""
+    value: ""
   }),
   components: {
     container: Container,
@@ -80,14 +109,18 @@ export default {
   computed: {
     correctDate() {
       return this.input;
+    },
+    isError() {
+      return this.error;
     }
   },
   methods: {
     inputHandler({ target }) {
-      target.value = formatDate(target.value)
-      
-    }
-  },
-  
+      const { value } = target;
+      target.value = formatDate(value);
+      this.value = formatDate(value);
+      this.set_value(value);
+    },
+  }
 };
 </script>

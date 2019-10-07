@@ -11,6 +11,7 @@ import { validateStatus } from './utils/service.utils.js'
 import router from './router'
 import toastr from 'toastr'
 import urlConstants from './constants/url.constants'
+import { async } from 'q'
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? urlConstants.DEV : urlConstants.PROD;
 
@@ -143,6 +144,9 @@ const store = new Vuex.Store({
         },
         update_image: async({ commit, state }, formData) => {
             adServicies.updateImage(formData)(commit, state)
+        },
+        update_time: async({ commit, state }, { id, time }) => {
+            adServicies.updateTime(time, id)(commit, state)
         }
     },
     getters: {

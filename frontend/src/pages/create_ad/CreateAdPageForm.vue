@@ -78,7 +78,12 @@
               placeholder="Добавить видео (URL)"
               @input="inputHandler"
             />
-            <InputDate :width="'calc(30% - 14px)'" :updating="false" />
+            <InputDate
+              :width="'calc(30% - 14px)'"
+              :updating="false"
+              :error="error.time"
+              :set_value="setTimes"
+            />
           </div>
         </div>
       </form>
@@ -90,6 +95,7 @@
 import toastr from "toastr";
 import { isNull } from "util";
 import InputDate from "../../components/input/date/InputDate";
+import { stringToTimestamp, clearNumbers } from "../../utils/common.utils";
 
 export default {
   name: "create_ad_form",
@@ -104,6 +110,7 @@ export default {
       url: null
     },
     time: {
+      text: null,
       start_time: null,
       end_time: null
     },
@@ -113,7 +120,8 @@ export default {
       product_url: false,
       video_url: false,
       index: false,
-      image: false
+      image: false,
+      time: false
     }
   }),
   components: {
@@ -128,7 +136,8 @@ export default {
     uploadBtnClickHandler: uploadBtnClickHandler,
     inputHandler: inputHandler,
     changeHandler: changeHandler,
-    createAd: createAd
+    createAd: createAd,
+    setTimes: setTimes
   },
   created() {
     this.$on("submit_creation", () => {
@@ -186,8 +195,8 @@ function createAd() {
   formData.append("video_url", this.video_url);
   formData.append("product_url", this.product_url);
   formData.append("image", this.photo.file);
-  formData.append("start_time", 1567987200);
-  formData.append("end_time", 1567987200);
+  formData.append("start_time", this.time.start_time);
+  formData.append("end_time", this.time.end_time);
   formData.append("index", this.index);
   formData.append("active", true);
   formData.append("show_image", true);
@@ -201,7 +210,8 @@ function validateData(data) {
     product_url: false,
     video_url: false,
     index: false,
-    image: false
+    image: false,
+    time: false
   };
   if (data.title.length == 0) {
     error.title = true;
@@ -218,7 +228,23 @@ function validateData(data) {
   if (!data.photo.file) {
     error.image = true;
   }
+
+  if (!data.time.text || clearNumbers(data.time.text).length < 16) {
+    error.time = true;
+  }
+
   return error;
+}
+
+function setTimes(time) {
+  this.error.time = time.length == 0
+
+  const { start_time, end_time } = stringToTimestamp(time);
+  this.time = {
+    text: clearNumbers(time),
+    start_time: start_time ? start_time : null,
+    end_time: end_time ? end_time : null
+  };
 }
 </script>
 

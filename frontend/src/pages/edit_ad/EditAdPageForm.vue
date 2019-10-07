@@ -92,6 +92,8 @@
                 <option value="5">очень часто</option>
               </select>
             </div>
+          </div>
+          <div class="create_fields_wrapper">
             <div class="video_url_wrapper">
               <Preloader v-if="getUpdateLoading.video_url" />
               <input
@@ -106,6 +108,14 @@
                 @blur="blurHandler"
               />
             </div>
+            <input-date
+              :width="'calc(30% - 14px)'"
+              :updating="getUpdateLoading.time"
+              :error="error.time"
+              :set_value="setTimes"
+              :onBlur="onTimeChange"
+              :defaultValue="getDefaultTimes"
+            />
           </div>
         </div>
       </form>
@@ -119,20 +129,29 @@
 
 <script>
 import Preloader from "../../components/preloader/Preloader";
+import InputDate from "../../components/input/date/InputDate";
+import {
+  stringToTimestamp,
+  clearNumbers,
+  timestampToString
+} from "../../utils/common.utils";
 import toastr from "toastr";
 
 export default {
   name: "edit_ad_form",
   components: {
-    Preloader
+    Preloader,
+    "input-date": InputDate
   },
   data: () => ({
     title: "",
     description: "",
     product_url: "",
     video_url: "",
-    start_time: null,
-    end_time: null,
+    time: {
+      start_time: null,
+      end_time: null
+    },
     index: null,
     image: {
       file: null,
@@ -144,7 +163,8 @@ export default {
       product_url: false,
       start_time: false,
       end_time: false,
-      image: false
+      image: false,
+      time: false
     }
   }),
   computed: {
@@ -156,6 +176,10 @@ export default {
     },
     getUpdateLoading() {
       return this.$store.getters.UPDATING;
+    },
+    getDefaultTimes() {
+      const currentAd = this.$store.getters.CURRENT_AD;
+      return timestampToString(currentAd.start_time, currentAd.end_time);
     }
   },
   methods: {
@@ -164,7 +188,9 @@ export default {
     blurHandler: blurHandler,
     selectChangeHandler: selectChangeHandler,
     uploadBtnClickHandler: uploadBtnClickHandler,
-    changeHandler: changeHandler
+    changeHandler: changeHandler,
+    setTimes: setTimes,
+    onTimeChange: onTimeChange
   }
 };
 function focusHandler({ target }) {
@@ -232,6 +258,43 @@ function changeHandler({ target }) {
     };
     reader.readAsDataURL(file_upload.files[0]);
   }
+}
+function setTimes(time) {
+  this.error.time = time.length == 0;
+
+  const { start_time, end_time } = stringToTimestamp(time);
+  this.time = {
+    text: clearNumbers(time),
+    start_time: start_time ? start_time : null,
+    end_time: end_time ? end_time : null
+  };
+}
+
+function onTimeChange() {
+  console.log(this.time.text);
+  const { start_time, end_time } = this.$store.getters.CURRENT_AD;
+  console.log(this.time.start_time + " " + start_time);
+  if(!this.time.text){
+    return
+  }
+  if( this.time.text.length < 16){
+    this.error.time = true
+    toastr.error('Новые даты введены некорректно')
+    return
+  }
+  if (validateTime(this.time, { start_time, end_time })) {
+    this.$store.dispatch("update_time", {
+      id: this.$store.getters.CURRENT_AD.id,
+      time: this.time
+    });
+  }
+}
+
+function validateTime(newTime, oldTime) {
+  return (
+    (newTime.start_time && newTime.start_time != oldTime.start_time) ||
+    (newTime.end_time && newTime.end_time != oldTime.end_time)
+  );
 }
 </script>
 
