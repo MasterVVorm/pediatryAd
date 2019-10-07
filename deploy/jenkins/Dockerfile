@@ -11,6 +11,8 @@ RUN apt update && apt install -y ansible
 
 COPY basic-security.groovy /var/jenkins_home/init.groovy.d/basic-security.groovy
 
+RUN apt install -y rsync
+
 USER jenkins
 
 RUN /usr/local/bin/install-plugins.sh github ansible
