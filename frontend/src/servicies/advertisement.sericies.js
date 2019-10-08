@@ -20,13 +20,43 @@ const adServicies = {
     updateTime
 }
 
-function getAllAds(token) {
-    return axios.request({
-        url: '/companies',
-        params: {
-            token: token
+async function getAllAds(commit, state) {
+    commit('set_loading', true)
+    try {
+        const response = await axios.request({
+            url: '/companies',
+            params: {
+                token: state.token
+            }
+        })
+        const { status, data } = response
+        if (validateStatus(status)) {
+            data.ads.forEach(ad => {
+                ad.images[0].url = axios.defaults.baseURL.replace('/api', '') + ad.images[0].url
+            })
+            success(data.ads)
+        } else {
+            failure(errorConstants.SERVER)
         }
-    })
+    } catch (error) {
+        try {
+            const { response } = error
+            const { status } = response
+        } catch (e) {
+            failure(errorConstants.SERVER)
+        }
+    }
+
+    function success(ads) {
+        commit('set_ads', ads)
+        commit('set_loading', false)
+    }
+
+    function failure(message) {
+        commit('set_loading', false)
+        commit('set_error', true)
+        commit('set_error_message', message)
+    }
 }
 
 function createAd(formData) {
@@ -124,7 +154,9 @@ function getAd(id) {
             })
             const { data, status } = response
             if (status >= 200 && status < 300) {
-                success(data.ad)
+                const { ad } = data
+                ad.images[0].url = axios.defaults.baseURL.replace('/api', '') + ad.images[0].url
+                success(ad)
             } else {
                 failure()
             }

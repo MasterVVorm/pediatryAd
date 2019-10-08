@@ -22,7 +22,7 @@ def get_ads(request):
             response['ads'].append({
                 "title": ad.title,
                 "description": ad.description,
-                "image_url": "http://" + request.META['REMOTE_ADDR'] + images[0].image.url,
+                "image_url": images[0].image.url,
                 "show_image": ad.show_image,
                 "product_url": ad.product_url,
                 "video_url": video_url,

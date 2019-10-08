@@ -86,34 +86,7 @@ const store = new Vuex.Store({
             userServicies.login(user)(commit, state)
         },
         get_advertisements: async({ commit, state }) => {
-            commit('set_loading', true)
-            try {
-                const response = await adServicies.getAllAds(state.token)
-                const { status, data } = response
-                if (validateStatus(status)) {
-                    success(data.ads)
-                } else {
-                    failure(errorConstants.SERVER)
-                }
-            } catch (error) {
-                try {
-                    const { response } = error
-                    const { status } = response
-                } catch (e) {
-                    failure(errorConstants.SERVER)
-                }
-            }
-
-            function success(ads) {
-                commit('set_ads', ads)
-                commit('set_loading', false)
-            }
-
-            function failure(message) {
-                commit('set_loading', false)
-                commit('set_error', true)
-                commit('set_error_message', message)
-            }
+            adServicies.getAllAds(commit, state)
         },
         delete_ad: async({ commit, state }, id) => {
             adServicies.deleteAd(id)(commit, state)

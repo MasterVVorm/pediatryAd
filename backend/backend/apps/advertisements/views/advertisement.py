@@ -10,6 +10,7 @@ import json
 import calendar
 import time
 
+
 @csrf_exempt
 def advertisement(request):
     if request.method == 'GET':
@@ -109,7 +110,7 @@ def get_advertisement(request):
         for image in images:
             image_array.append({
                 "image_id": image.id,
-                "url": "http://" + request.META['HTTP_HOST']  + image.image.url
+                "url": image.image.url
             })
     except:
         image_array = None
@@ -152,9 +153,9 @@ def advertisements(request):
                     for image in images:
                         image_array.append({
                             "image_id": image.id,
-                            "url": "http://" + request.META['HTTP_HOST'] + image.image.url
+                            "url": image.image.url
                         })
-                    
+
                     response['ads'].append({
                         "id": ad.id,
                         "title": ad.title,
