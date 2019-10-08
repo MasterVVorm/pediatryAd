@@ -11,7 +11,7 @@ urlpatterns = [
     path('api/', include('backend.apps.user.urls')),
     path('api/', include('backend.apps.advertisements.urls')),
     path('api/version', lambda req: JsonResponse({"version": API_VERSION})),
-    path(r'api/media/', serve,
+    url(r'^api/media/(?P<path>.*)$', serve,
         {'document_root': MEDIA_ROOT}),
 ]
 
