@@ -57,8 +57,8 @@ def create_advertisement(request):
         image = ImageMedia.objects.create_image_media(
             image=image, advertisement=ads)
         image.save()
-    except:
-        return JsonResponse(status=400, data={"error": "something went wrong"})
+    except Exception as e:
+        return JsonResponse(status=400, data={"error": "something went wrong", "traceback": str(e)})
 
     return HttpResponse(status=201)
 

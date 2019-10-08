@@ -9,3 +9,5 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR+"/../../../data/", 'db.sqlite3'),
     }
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR+"/../../../", 'media')

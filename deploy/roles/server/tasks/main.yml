@@ -2,7 +2,13 @@
   file: 
     path: "{{ ansible_env.PWD }}/data"
     state: directory
-  become: no        
+  become: no     
+
+- name: Create media directory 
+  file: 
+    path: "{{ ansible_env.PWD }}/media"
+    state: directory
+  become: no      
     
 
 - name: Shutdown server using docker compose
