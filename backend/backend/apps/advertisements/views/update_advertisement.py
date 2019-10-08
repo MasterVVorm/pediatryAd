@@ -9,7 +9,7 @@ from datetime import datetime
 from django.utils import timezone
 import json
 import calendar
-
+import time
 
 @csrf_exempt
 def update_title(request):
@@ -108,6 +108,7 @@ def update_active(request):
             return JsonResponse(status=400, data={"error": ResponseConstants.INVALID_TOKEN})
 
         try:
+            currentTime = time.time()
             ad = Advertisement.objects.get(id=int(id))
             ad.active = not ad.active
             ad.save(update_fields=['active'])

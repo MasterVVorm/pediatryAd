@@ -27,7 +27,7 @@
       />
       <component :is="button_component" title="Войти" styles="margin-top: 10px;" />
     </LoginPageInputContainer>
-    <LoginPageRightSide />
+    <!-- <LoginPageRightSide /> -->
   </section>
 </template>
 
@@ -37,6 +37,7 @@ import LoginPageInputContainer from "./LoginPageInputContainer";
 import { userConstants } from "../../constants/user.constants";
 import ButtonBase from "../../components/buttons/base/ButtonBase";
 import LoginPageRightSide from "./LoginPageRightSide";
+import toastr from 'toastr';
 
 export default {
   name: "login",
@@ -79,11 +80,13 @@ function setUserData(id, value) {
 
 function onSubmit() {
   if (validateData(this.login) && validateData(this.password)) {
-    console.log('submit')
+    console.log("submit");
     this.$store.dispatch("login", {
       login: this.login,
       password: this.password
     });
+  } else {
+    toastr.info('Все поля должны быть заполнены')
   }
 }
 </script>
@@ -107,38 +110,26 @@ section {
   }
   h1 {
     position: relative;
-    width: 29.9vw;
-    max-width: 574.5px;
+    width: 383px;
+    height: 144px;
+    font-family: Roboto;
+    font-style: normal;
     font-weight: 300;
-    margin: 0;
+    font-size: 40px;
     line-height: 120.19%;
+    color: $textColor;
   }
   h3 {
     position: relative;
-    width: 31.5vw;
+    width: 404px;
+    height: 49px;
     max-width: 606px;
+    font-family: Roboto;
+    font-style: normal;
     font-weight: 300;
-    margin: 0;
-  }
-  @media (max-width: 1919px) {
-    h1 {
-      font-size: 3vw;
-    }
-    h3 {
-      font-size: 1.4vw;
-      margin-top: 1.2vw;
-      margin-bottom: 2vw;
-    }
-  }
-  @media (min-width: 1920px) {
-    h1 {
-      font-size: 40pt;
-    }
-    h3 {
-      font-size: 20pt;
-      margin-top: 19px;
-      margin-bottom: 38px;
-    }
+    font-size: 18px;
+    line-height: 21px;
+    color: $textColor;
   }
 }
 </style>

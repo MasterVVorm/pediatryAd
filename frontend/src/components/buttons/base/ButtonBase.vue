@@ -80,21 +80,20 @@ button {
   text-transform: uppercase;
   transition: 0.3s;
   background: white;
+  width: 200px;
+  border-radius: 100px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 20px;
+
+  text-align: center;
+  letter-spacing: 0.065em;
+  height: 45px;
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
-  }
-  @media (max-width: 1919px) {
-    width: 15.625vw;
-    height: 3.5vw;
-    border-radius: 1.75vw;
-    font-size: 1.56vw;
-  }
-  @media (min-width: 1920px) {
-    width: 300px;
-    height: 67.5px;
-    border-radius: 33.75px;
-    font-size: 30px;
   }
 }
 

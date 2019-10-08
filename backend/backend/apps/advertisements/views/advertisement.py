@@ -8,7 +8,7 @@ from datetime import datetime
 from django.utils import timezone
 import json
 import calendar
-
+import time
 
 @csrf_exempt
 def advertisement(request):
@@ -139,9 +139,14 @@ def advertisements(request):
                 'ads': []
             }
             ads = Advertisement.objects.all()
-
+            currentTime = time.time()
+            print(currentTime)
             for ad in ads:
                 try:
+                    if currentTime > calendar.timegm(ad.end_time.utctimetuple()):
+                        ad.active = False
+                        ad.save(update_fields=['active'])
+
                     images = ImageMedia.objects.filter(advertisement=ad)
                     image_array = []
                     for image in images:
@@ -149,6 +154,7 @@ def advertisements(request):
                             "image_id": image.id,
                             "url": "http://" + request.META['HTTP_HOST'] + image.image.url
                         })
+                    
                     response['ads'].append({
                         "id": ad.id,
                         "title": ad.title,

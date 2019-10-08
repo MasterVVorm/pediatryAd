@@ -61,10 +61,8 @@ export default {
 <style lang="scss" scoped>
 .input_wrapper {
   position: relative;
-  width: 27.3vw;
-  max-width: 524px;
-  height: 3.28vw;
-  max-height: 63px;
+  width: 350px;
+  height: 42px;
   margin-top: 18px;
   margin-bottom: 18px;
   transition: 0.3s;
@@ -86,7 +84,7 @@ export default {
   input {
     position: relative;
     width: calc(100% - 40px);
-    height: 100%;
+    height: 42px;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     border: none;
@@ -96,28 +94,16 @@ export default {
     padding-right: 20px;
     transition: 0.3s;
     color: #6b5e6c;
+    font-size: 16px;
     &::placeholder {
       color: #c0bbc7;
-    }
-  }
-  @media (max-width: 1920px) {
-    input {
-      font-size: 1.25vw;
-    }
-  }
-
-  @media (min-width: 1920px) {
-    input {
-      font-size: 20pt;
     }
   }
 }
 .focused {
   transform: translateY(-2px);
   input {
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15) !important;
-    border: none !important;
-    outline: none !important;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
   }
 }
 </style>
