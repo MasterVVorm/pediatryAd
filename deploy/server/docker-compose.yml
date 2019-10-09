@@ -17,7 +17,7 @@ services:
     user: 1000:1000
 
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     ports:
       - "${SERVER_PORT}:8000"
     volumes:
