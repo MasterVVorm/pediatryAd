@@ -11,13 +11,13 @@ def generateArrayOfAds(ads):
     coef = 20
     final_array = []
 
-    if len(ads) <=10: 
+    if len(ads) <=5: 
         return ads
         
     for ad in ads:
         sum_of_indexes += ad.index
 
-    while len(final_array) < 10:
+    while len(final_array) < 5:
         rand = randint(1, sum_of_indexes * coef)
         step = 0
         
