@@ -1,5 +1,5 @@
 <template>
-  <div class="control_btn" @click="clickHandler">
+  <div class="control_btn" :class="{active, 'paused': !active}" @click="clickHandler">
     <svg v-if="active" viewBox="-1 -1 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M9 0C4.032 0 0 4.032 0 9C0 13.968 4.032 18 9 18C13.968 18 18 13.968 18 9C18 4.032 13.968 0 9 0ZM9 16.2C5.031 16.2 1.8 12.969 1.8 9C1.8 5.031 5.031 1.8 9 1.8C12.969 1.8 16.2 5.031 16.2 9C16.2 12.969 12.969 16.2 9 16.2Z"
@@ -43,7 +43,7 @@ export default {
 
 <style lang="scss" scoped>
 .control_btn {
-
+  
   &:hover {
     svg {
       path {
@@ -51,5 +51,11 @@ export default {
       }
     }
   }
+}
+.active{
+    background: $activeColor;
+  }
+.paused{
+    background: $pausedColor;
 }
 </style>

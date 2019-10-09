@@ -1,6 +1,9 @@
 from django.http import JsonResponse, HttpResponse
 from ..models import Advertisement, ImageMedia
 from backend.utils import utils
+import calendar
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 
 def get_ads(request):
@@ -9,7 +12,16 @@ def get_ads(request):
             'ads': []
         }
         try:
-            ads = utils.generateArrayOfAds(Advertisement.objects.all())
+            currentTime = calendar.timegm(datetime.utcnow().utctimetuple())
+            ads = []
+            for ad in Advertisement.objects.all():
+                if currentTime > calendar.timegm(ad.end_time.utctimetuple()) and ad.active:
+                    ad.active = not ad.active
+                    ad.save(update_fields=['active'])
+                elif ad.active:
+                    ads.append(ad)
+                    
+            ads = utils.generateArrayOfAds(ads)
 
             for ad in ads:
                 images = ImageMedia.objects.filter(advertisement=ad)

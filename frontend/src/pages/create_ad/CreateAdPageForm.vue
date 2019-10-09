@@ -71,11 +71,7 @@
               placeholder="Добавить видео (URL)"
               @input="inputHandler"
             />
-            <InputDate
-              :updating="false"
-              :error="error.time"
-              :set_value="setTimes"
-            />
+            <input-date :updating="false" :error="error.time" :set_value="setTimes" />
           </div>
         </div>
       </form>
@@ -118,7 +114,7 @@ export default {
     }
   }),
   components: {
-    InputDate,
+    "input-date": InputDate,
     "select-base": SelectBase
   },
   computed: {
@@ -145,10 +141,9 @@ function showTimePicker() {
   this.show_time_picker = !this.show_time_picker;
 }
 
-function setIndex(index){
-  this.error.time = false
-  this.index = index
-  console.log(this.error.time)
+function setIndex(index) {
+  this.error.index = false;
+  this.index = index;
 }
 
 function uploadBtnClickHandler() {
@@ -234,6 +229,12 @@ function validateData(data) {
     error.time = true;
   }
 
+  if (data.time.text && clearNumbers(data.time.text).length == 16) {
+    if (data.time.start_time >= data.time.end_time) {
+      toastr.error("Дата начала не может быть больше или равна дате окончания");
+      error.time = true;
+    }
+  }
   return error;
 }
 

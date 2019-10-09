@@ -1,7 +1,7 @@
 <template>
   <div id="selector" ref="selector" :style="getStyles" @click="openOptions">
     <preloader v-if="updating" />
-    <div class="wrapper" v-else>
+    <div class="wrapper" :class="{'error': error}" v-else>
       {{this.options[this.getCurrentValue -1]}}
       <div class="options" v-if="showOptions" :style="getPosition">
         <div data-id="1" class="option" @click="pickHandler">{{this.options[0]}}</div>
@@ -111,7 +111,8 @@ export default {
   &:hover {
     box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.1);
   }
-  .wrapper{
+
+  .wrapper {
     position: relative;
     width: 100%;
     height: 39px;
@@ -120,35 +121,38 @@ export default {
     align-items: center;
     border: 2px solid $blurColor;
     border-radius: 10px;
-      .options {
-    position: fixed;
-    z-index: 100;
-    transform: translateY(56px);
-    height: 172px;
-    background: #ffffff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    overflow: hidden;
-    .option {
-      position: relative;
-      width: 100%;
-      height: 20%;
+    transition: 0.3s;
+    .options {
+      position: fixed;
+      z-index: 100;
+      transform: translateY(56px);
+      height: 172px;
+      background: #ffffff;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
       display: flex;
-      justify-content: flex-start;
-      padding-left: 20px;
+      justify-content: center;
       align-items: center;
-      font-size: 16px;
-      color: $textColor;
-      &:hover {
-        background: $placeholderColor;
+      flex-wrap: wrap;
+      overflow: hidden;
+      .option {
+        position: relative;
+        width: 100%;
+        height: 20%;
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 20px;
+        align-items: center;
+        font-size: 16px;
+        color: $textColor;
+        &:hover {
+          background: $placeholderColor;
+        }
       }
     }
   }
+  .error {
+    border-color: $mainColor;
   }
-  
 }
 </style>

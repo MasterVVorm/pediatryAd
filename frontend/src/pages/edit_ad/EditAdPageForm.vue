@@ -22,7 +22,7 @@
               alt
             />
           </div>
-          <div class="upload_btn" @click="uploadBtnClickHandler">Обновить</div>
+          <div class="upload_btn" @click="uploadBtnClickHandler">Загрузить</div>
         </div>
         <div class="right_block">
           <div class="title_wrapper">

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Preloader from './components/preloader/Preloader.vue'
-import store from './store'
+import store from './store/store'
 
 const Home = () => ({
     component: import ('./pages/home/HomePage.vue'),

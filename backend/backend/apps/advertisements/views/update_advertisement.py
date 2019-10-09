@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from ..models import Advertisement, ImageMedia
 from backend.apps.user.models import User
 from backend.utils.utils import formatBool
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 import json
 import calendar
@@ -108,11 +108,18 @@ def update_active(request):
             return JsonResponse(status=400, data={"error": ResponseConstants.INVALID_TOKEN})
 
         try:
-            currentTime = time.time()
+            currentTime = calendar.timegm(datetime.utcnow().utctimetuple())
             ad = Advertisement.objects.get(id=int(id))
+
+            if currentTime > calendar.timegm(ad.end_time.utctimetuple()) and not ad.active:
+                new_end_time = datetime.fromtimestamp(
+                    int(currentTime), tz=timezone.utc) + timedelta(days=1)
+                new_end_time = new_end_time.replace(hour=0, minute=0) + timedelta(hours=-3)
+                ad.end_time = new_end_time
+                ad.save(update_fields=['end_time'])
             ad.active = not ad.active
             ad.save(update_fields=['active'])
-            return HttpResponse()
+            return JsonResponse({"end_time": calendar.timegm(ad.end_time.utctimetuple())})
         except:
             return JsonResponse(status=400, data={"error": ResponseConstants.WRONG_AD_ID})
     else:
@@ -227,4 +234,3 @@ def update_times(request):
 
     else:
         return HttpResponse(status=405)
-

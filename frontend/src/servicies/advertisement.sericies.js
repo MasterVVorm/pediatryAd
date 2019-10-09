@@ -212,9 +212,9 @@ function updateActive(id) {
                     id: id
                 }
             })
-            const { status } = response
+            const { data, status } = response
             if (validateStatus(status)) {
-                success()
+                success(data.end_time)
             } else {
                 failure()
             }
@@ -223,9 +223,10 @@ function updateActive(id) {
             failure()
         }
 
-        function success() {
+        function success(end_time) {
             const updatedAd = state.advertisements.filter(ad => ad.id == id)[0]
             updatedAd.active = !updatedAd.active
+            updatedAd.end_time = end_time
             const newAds = state.advertisements.map(ad => ad.id == id ? updatedAd : ad)
             commit('set_ads', newAds)
             commit('set_ad_updating', { status: false, id: null })
@@ -235,6 +236,7 @@ function updateActive(id) {
         function failure() {
             commit('set_ad_updating', { status: false, id: null })
             commit('set_error', true)
+            toastr.error('Что-то пошло не так, повторите попытку позже')
             commit('set_error_message', errorConstants.SMTH_WRONG)
         }
     }
