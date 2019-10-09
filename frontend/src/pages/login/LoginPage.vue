@@ -27,7 +27,7 @@
       />
       <component :is="button_component" title="Войти" styles="margin-top: 10px;" />
     </LoginPageInputContainer>
-    <!-- <LoginPageRightSide /> -->
+    <LoginPageRightSide />
   </section>
 </template>
 
@@ -96,12 +96,10 @@ section {
   position: relative;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 1920px;
+  max-width: 1280px;
+  margin: auto;
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 629px 651px;
   #logo {
     position: fixed;
     top: 1.3vw;
@@ -117,6 +115,7 @@ section {
     font-weight: 300;
     font-size: 40px;
     line-height: 120.19%;
+    margin-top: 0;
     color: $textColor;
   }
   h3 {

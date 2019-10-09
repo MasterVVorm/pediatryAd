@@ -124,6 +124,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://example.com",
     "https://sub.example.com",
     "localhost:3000",
+    "localhost:3001",
     "http://127.0.0.1:9000"
 ]
 

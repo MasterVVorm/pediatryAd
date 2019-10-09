@@ -5,7 +5,6 @@
   </div>
 </template>
 <script>
-import styled from "vue-styled-components";
 import { colors } from "@/constants/color.constants.js";
 import Preloader from "../../preloader/Preloader";
 import { formatDate } from "@/utils/common.utils.js";
