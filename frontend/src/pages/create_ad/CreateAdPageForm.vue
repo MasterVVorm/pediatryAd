@@ -1,6 +1,7 @@
 <template>
   <div class="create_ad_container">
-    <div class="create_ad_wrapper">
+    <preloader v-if="isLoading"/>
+    <div v-else class="create_ad_wrapper">
       <form class="create_form">
         <div class="left_block">
           <input
@@ -85,6 +86,7 @@ import { isNull } from "util";
 import InputDate from "../../components/input/date/InputDate";
 import { stringToTimestamp, clearNumbers } from "../../utils/common.utils";
 import SelectBase from "../../components/selectors/SelectorBase";
+import Preloader from '../../components/preloader/Preloader';
 
 export default {
   name: "create_ad_form",
@@ -115,11 +117,15 @@ export default {
   }),
   components: {
     "input-date": InputDate,
-    "select-base": SelectBase
+    "select-base": SelectBase,
+    preloader: Preloader
   },
   computed: {
     timeIsEmpty() {
       return isNull(this.time.start_time);
+    },
+    isLoading(){
+      return this.$store.getters.LOADING
     }
   },
   methods: {
