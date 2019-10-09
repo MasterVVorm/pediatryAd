@@ -2,7 +2,10 @@
   <section>
     <header>
       <h1>Рекламные компании</h1>
-      <ButtonCreate />
+      <div class="button_wrapper">
+        <ButtonCreate />
+        <logout-button />
+      </div>
     </header>
     <div class="content_wrapper">
       <Preloader v-if="isLoading" />
@@ -19,6 +22,7 @@
 <script>
 import Preloader from "../../components/preloader/Preloader";
 import ButtonCreate from "../../components/buttons/create/ButtonCreate";
+import ButtonLogout from "../../components/buttons/logout/ButtonLogout";
 import HomePageItem from "./HomePageItem";
 export default {
   name: "home",
@@ -28,7 +32,8 @@ export default {
   components: {
     Preloader,
     ButtonCreate,
-    HomePageItem
+    HomePageItem,
+    "logout-button": ButtonLogout
   },
   computed: {
     getAds() {
@@ -45,5 +50,4 @@ export default {
 </script>
 
 <style lang="scss" src="./_home_page_styles.scss" scoped>
-
 </style>

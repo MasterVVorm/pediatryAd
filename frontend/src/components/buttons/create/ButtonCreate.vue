@@ -1,9 +1,15 @@
 <template>
-  <div class="create_btn" @click="goToCreatePage"></div>
+  <div class="create_btn" @click="goToCreatePage">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M13.75 6.25H11.25V11.25H6.25V13.75H11.25V18.75H13.75V13.75H18.75V11.25H13.75V6.25ZM12.5 0C5.6 0 0 5.6 0 12.5C0 19.4 5.6 25 12.5 25C19.4 25 25 19.4 25 12.5C25 5.6 19.4 0 12.5 0ZM12.5 22.5C6.9875 22.5 2.5 18.0125 2.5 12.5C2.5 6.9875 6.9875 2.5 12.5 2.5C18.0125 2.5 22.5 6.9875 22.5 12.5C22.5 18.0125 18.0125 22.5 12.5 22.5Z"
+        fill="#B3A0CC"
+      />
+    </svg>
+  </div>
 </template>
 
 <script>
-import { colors } from "@/constants/color.constants";
 export default {
   name: "button_create",
   methods: {
@@ -16,40 +22,26 @@ export default {
 
 <style lang="scss" scoped>
 .create_btn {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%) translateX(50%);
+  position: relative;
   width: 35px;
   height: 35px;
-  border-radius: 50%;
-  border: 2px solid $mainColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 0.3s;
+  border-radius: 50%;
   cursor: pointer;
-  &::before,
-  &::after {
-    position: absolute;
-    content: "";
-    top: 50%;
-    left: 50%;
-    width: 80%;
-    height: 3px;
-    color: inherit;
-    background: $mainColor;
-    transition: 0.3s;
-  }
-  &::before {
-    transform: translateY(-50%) translateX(-50%) rotateZ(90deg);
-  }
-  &::after {
-    transform: translateY(-50%) translateX(-50%);
-  }
   &:hover {
-    background: $mainColor;
-    &::before,
-    &::after {
-      background: white;
+    svg{
+      path{
+        fill: white;
+      }
     }
+    background: $mainColor;
+  }
+
+  svg{
+    transition: .3s;
   }
 }
 </style>

@@ -3,7 +3,6 @@ import storageConstants from '../constants/storage.constants.js'
 import errorConstants from '../constants/error.constants.js'
 import toastr from 'toastr'
 import { validateStatus, successUpdating, failureUpdating } from '../utils/service.utils.js'
-import { async } from 'q'
 
 const adServicies = {
     getAllAds,

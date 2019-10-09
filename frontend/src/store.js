@@ -1,17 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { mapActions } from 'vue-router'
 import VuexChromePlugin from 'vuex-chrome-plugin'
 import userServicies from './servicies/user.servicies.js'
-import errorConstants from './constants/error.constants.js'
-import storageConstants from './constants/storage.constants.js'
 import adServicies from './servicies/advertisement.sericies.js'
-import { validateStatus } from './utils/service.utils.js'
 import router from './router'
-import toastr from 'toastr'
 import urlConstants from './constants/url.constants'
-import { async } from 'q'
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? urlConstants.DEV : urlConstants.PROD;
 
@@ -85,13 +79,16 @@ const store = new Vuex.Store({
         login: async({ commit, state }, user) => {
             userServicies.login(user)(commit, state)
         },
+        logout: async({ commit }) => {
+            userServicies.logout(commit, router)
+        },
         get_advertisements: async({ commit, state }) => {
             adServicies.getAllAds(commit, state)
         },
         delete_ad: async({ commit, state }, id) => {
             adServicies.deleteAd(id)(commit, state)
         },
-        create_ad: async({ commit, state }, formData) => {
+        create_ad: async({ commit }, formData) => {
             adServicies.createAd(formData)(commit, router)
         },
         update_active: async({ commit, state }, id) => {

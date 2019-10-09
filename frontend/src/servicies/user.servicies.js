@@ -7,12 +7,13 @@ import { validateStatus } from '../utils/service.utils'
 
 const userServicies = {
     login,
+    logout,
     authUser
 }
 
 function login(user) {
     const { login, password } = user
-    return async(commit, state) => {
+    return async(commit) => {
         commit('set_login_in', true)
         try {
             let response = await axios.post('/login', { login, password }, { headers: { 'Content-type': 'application/json' } })
@@ -52,7 +53,13 @@ function login(user) {
     }
 }
 
-async function authUser(commit, state) {
+async function logout(commit, router) {
+    commit('set_logged', false)
+    localStorage.removeItem(storageConstants.TOKEN)
+    router.push('/login')
+}
+
+async function authUser(commit) {
     const token = JSON.parse(localStorage.getItem(storageConstants.TOKEN))
     console.log(token)
     if (token) {
@@ -73,7 +80,7 @@ async function authUser(commit, state) {
             console.log(error)
             try {
                 const { response } = error
-                const { data, status } = response
+                const { status } = response
                 console.log(response)
                 switch (status) {
                     case 404 || 400:
@@ -106,7 +113,7 @@ async function authUser(commit, state) {
         }
     }
 
-    function failure(message) {
+    function failure() {
         commit('set_starting_app', false)
         localStorage.removeItem(storageConstants.TOKEN)
         router.push('/login')
