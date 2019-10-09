@@ -239,21 +239,34 @@ function uploadBtnClickHandler() {
 function changeHandler({ target }) {
   const file_upload = this.$refs.file_upload;
   if (file_upload.files && file_upload.files[0]) {
-    let reader = new FileReader();
-    reader.onload = e => {
-      this.image = {
-        file: file_upload.files[0],
-        url: e.target.result
-      };
+    const reader = new FileReader();
+    const file = file_upload.files[0];
+    reader.onload = ({ target }) => {
+      const allowedTypes = ["image/jpg", "image/jpeg", "image/png"];
+      const { result } = target;
+      for (let type of allowedTypes) {
+        if (file.type === type) {
+          this.image = {
+            file: file,
+            url: result
+          };
+        }
+      }
+      if (this.image.url !== result) {
+        toastr.error(
+          "Данный тип файлов не поддерживется. Разрешенные форматы изображений: jpg, jpeg и png"
+        );
+        return;
+      }
       let form = new FormData();
-      form.append("image", file_upload.files[0]);
+      form.append("image", file);
       form.append(
         "image_id",
         this.$store.getters.CURRENT_AD.images[0].image_id
       );
       this.$store.dispatch("update_image", form);
     };
-    reader.readAsDataURL(file_upload.files[0]);
+    reader.readAsDataURL(file);
   }
 }
 function setTimes(time) {
@@ -268,9 +281,7 @@ function setTimes(time) {
 }
 
 function onTimeChange() {
-  console.log(this.time.text);
   const { start_time, end_time } = this.$store.getters.CURRENT_AD;
-  console.log(this.time.start_time + " " + start_time);
   if (!this.time.text) {
     return;
   }
@@ -280,10 +291,15 @@ function onTimeChange() {
     return;
   }
   if (validateTime(this.time, { start_time, end_time })) {
-    this.$store.dispatch("update_time", {
-      id: this.$store.getters.CURRENT_AD.id,
-      time: this.time
-    });
+    if (this.time.start_time < this.time.end_time) {
+      this.$store.dispatch("update_time", {
+        id: this.$store.getters.CURRENT_AD.id,
+        time: this.time
+      });
+    } else {
+      toastr.error("Дата начала не может быть больше или равна дате окончания");
+      this.error.time = true;
+    }
   }
 }
 

@@ -3,10 +3,9 @@ module.exports = {
         loaderOptions: {
             sass: {
                 data: `
-          @import "@/scss/colors.scss";
-          @import "@/scss/global.scss";
-
-        `
+                    @import "@/scss/colors.scss";
+                    @import "@/scss/global.scss";
+                    `
             }
         }
     }

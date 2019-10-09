@@ -61,7 +61,6 @@ async function logout(commit, router) {
 
 async function authUser(commit) {
     const token = JSON.parse(localStorage.getItem(storageConstants.TOKEN))
-    console.log(token)
     if (token) {
         try {
             const response = await axios.request({
@@ -77,11 +76,10 @@ async function authUser(commit) {
                 success(data.token)
             }
         } catch (error) {
-            console.log(error)
             try {
                 const { response } = error
                 const { status } = response
-                console.log(response)
+
                 switch (status) {
                     case 404 || 400:
                         failure(storageConstants.TOKEN);

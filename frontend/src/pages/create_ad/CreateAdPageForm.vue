@@ -1,6 +1,6 @@
 <template>
   <div class="create_ad_container">
-    <preloader v-if="isLoading"/>
+    <preloader v-if="isLoading" />
     <div v-else class="create_ad_wrapper">
       <form class="create_form">
         <div class="left_block">
@@ -86,7 +86,7 @@ import { isNull } from "util";
 import InputDate from "../../components/input/date/InputDate";
 import { stringToTimestamp, clearNumbers } from "../../utils/common.utils";
 import SelectBase from "../../components/selectors/SelectorBase";
-import Preloader from '../../components/preloader/Preloader';
+import Preloader from "../../components/preloader/Preloader";
 
 export default {
   name: "create_ad_form",
@@ -124,8 +124,8 @@ export default {
     timeIsEmpty() {
       return isNull(this.time.start_time);
     },
-    isLoading(){
-      return this.$store.getters.LOADING
+    isLoading() {
+      return this.$store.getters.LOADING;
     }
   },
   methods: {
@@ -169,12 +169,22 @@ function inputHandler({ target }) {
 function changeHandler({ target }) {
   const file_upload = this.$refs.file_upload;
   if (file_upload.files && file_upload.files[0]) {
-    let reader = new FileReader();
-    reader.onload = e => {
-      this.photo = {
-        file: file_upload.files[0],
-        url: e.target.result
-      };
+    const reader = new FileReader();
+    const file = file_upload.files[0];
+    reader.onload = ({target}) => {
+      const allowedTypes = ["image/jpg", "image/jpeg", "image/png"];
+      const { result} = target
+      for (let type of allowedTypes) {
+        if (file.type === type) {
+          this.photo = {
+            file: file,
+            url: result
+          };
+        }
+      }
+      if(this.photo.url !== result){
+        toastr.error('Данный тип файлов не поддерживется. Разрешенные форматы изображений: jpg, jpeg и png')
+      }
     };
     reader.readAsDataURL(file_upload.files[0]);
     this.error.image = false;
