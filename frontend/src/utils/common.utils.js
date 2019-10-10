@@ -71,6 +71,11 @@ const checkDate = date => {
         if (date[5] > 2) {
             return date.slice(0, date.length - 1)
         }
+    } else {
+        if (date[5] == 0) {
+            return date.slice(0, date.length - 1)
+
+        }
     }
 
     if (date[6] > 3) {
@@ -82,5 +87,19 @@ const checkDate = date => {
         }
     }
 
+    if (date[6] == 0 && date[7] == 0) {
+        return date.slice(0, date.length - 1)
+    }
+
     return date
+}
+
+export function validURL(url) {
+    var pattern = new RegExp('^(https?:\\/\\/)?' +
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+        '((\\d{1,3}\\.){3}\\d{1,3}))' +
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+        '(\\?[;&a-z\\d%_.~+=-]*)?' +
+        '(\\#[-a-z\\d_]*)?$', 'i');
+    return !!pattern.test(url);
 }

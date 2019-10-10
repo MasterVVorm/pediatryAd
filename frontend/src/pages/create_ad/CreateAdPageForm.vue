@@ -84,9 +84,14 @@
 import toastr from "toastr";
 import { isNull } from "util";
 import InputDate from "../../components/input/date/InputDate";
-import { stringToTimestamp, clearNumbers } from "../../utils/common.utils";
+import {
+  stringToTimestamp,
+  clearNumbers,
+  validURL
+} from "../../utils/common.utils";
 import SelectBase from "../../components/selectors/SelectorBase";
 import Preloader from "../../components/preloader/Preloader";
+import axios from "axios";
 
 export default {
   name: "create_ad_form",
@@ -101,7 +106,7 @@ export default {
       url: null
     },
     time: {
-      text: null,
+      text: '',
       start_time: null,
       end_time: null
     },
@@ -136,11 +141,6 @@ export default {
     setTimes: setTimes,
     setIndex: setIndex
   },
-  created() {
-    this.$on("submit_creation", () => {
-      console.log("create");
-    });
-  }
 };
 
 function showTimePicker() {
@@ -171,9 +171,9 @@ function changeHandler({ target }) {
   if (file_upload.files && file_upload.files[0]) {
     const reader = new FileReader();
     const file = file_upload.files[0];
-    reader.onload = ({target}) => {
+    reader.onload = ({ target }) => {
       const allowedTypes = ["image/jpg", "image/jpeg", "image/png"];
-      const { result} = target
+      const { result } = target;
       for (let type of allowedTypes) {
         if (file.type === type) {
           this.photo = {
@@ -182,8 +182,10 @@ function changeHandler({ target }) {
           };
         }
       }
-      if(this.photo.url !== result){
-        toastr.error('Данный тип файлов не поддерживется. Разрешенные форматы изображений: jpg, jpeg и png')
+      if (this.photo.url !== result) {
+        toastr.error(
+          "Данный тип файлов не поддерживется. Разрешенные форматы изображений: jpg, jpeg и png"
+        );
       }
     };
     reader.readAsDataURL(file_upload.files[0]);
@@ -234,6 +236,14 @@ function validateData(data) {
   if (data.product_url.length == 0) {
     error.product_url = true;
   }
+  if (data.video_url.length > 0 && !validURL(data.video_url)) {
+    error.video_url = true;
+    toastr.error("Ссылка на видео введена некорректно");
+  }
+  if (data.product_url.length > 0 && !validURL(data.product_url)) {
+    error.product_url = true;
+    toastr.error("Ссылка на ресурс рекламодателя введена некорректно");
+  }
   if (data.index.length == 0) {
     error.index = true;
   }
@@ -241,7 +251,8 @@ function validateData(data) {
     error.image = true;
   }
 
-  if (!data.time.text || clearNumbers(data.time.text).length < 16) {
+  if (data.time.text.length > 0 && clearNumbers(data.time.text).length < 16) {
+    toastr.error("Период активности кампании введен некорректно");
     error.time = true;
   }
 

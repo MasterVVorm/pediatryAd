@@ -119,7 +119,8 @@ import SelectorBase from "../../components/selectors/SelectorBase";
 import {
   stringToTimestamp,
   clearNumbers,
-  timestampToString
+  timestampToString,
+  validURL
 } from "../../utils/common.utils";
 import toastr from "toastr";
 
@@ -166,7 +167,6 @@ export default {
     },
     getDefaultTimes() {
       const currentAd = this.$store.getters.CURRENT_AD;
-      console.log(timestampToString(currentAd.start_time, currentAd.end_time));
       return timestampToString(currentAd.start_time, currentAd.end_time);
     }
   },
@@ -191,7 +191,6 @@ function setIndex(index) {
 }
 
 function focusHandler({ target }) {
-  console.log(target.value);
   const { id, value } = target;
   this.$data[id] = value;
 }
@@ -208,6 +207,11 @@ function blurHandler({ target }) {
     this.$data.error[id] = true;
     toastr.error("Поле не может быть пустым");
     return;
+  }
+  if ((id == 'video_url' || 'product_url' ) && value.length > 0 &&  !validURL(value)){
+        toastr.error(id == 'video_url' ? 'Ссылка на видео введена некорректно': 'Ссылка на  ресурс рекламодателя введена некорректно');
+        this.$data.error[id] = true
+        return;
   }
   if (this.$store.getters.CURRENT_AD[id] !== this.$data[id]) {
     const id = this.$store.getters.CURRENT_AD.id;
