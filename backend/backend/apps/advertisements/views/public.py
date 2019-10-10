@@ -31,6 +31,7 @@ def get_ads(request):
                     video_url = ad.video_url
 
                 response['ads'].append({
+                    "id": ad.id,
                     "title": ad.title,
                     "description": ad.description,
                     "image_url": images[0].image.url,
