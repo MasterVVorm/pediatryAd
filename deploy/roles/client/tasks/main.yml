@@ -1,3 +1,14 @@
+    - name: Ensure frontend build is absent 
+      file: 
+        path: "{{ ansible_env.PWD }}/pediatryAd/frontend/dist"
+        state: directory
+        state: absent
+
+    - name: Ensure frontend node_modules is absent 
+      file: 
+        path: "{{ ansible_env.PWD }}/pediatryAd/frontend/node_modules"
+        state: directory
+        state: absent
 
     - name: Build Docker image for build node client
       docker_image:
