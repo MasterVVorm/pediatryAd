@@ -1,7 +1,12 @@
 version: '3'
 
 services:
-
+  db:
+    image: postgres
+    restart: unless-stopped
+    user: 1000:1000
+    volumes:
+      - "${PGDATA}:/var/lib/postgresql/data" 
   server:
     build:
       context: .
@@ -13,6 +18,8 @@ services:
       - ./../media:/media
     expose:
       - "8000"
+    depends_on:
+      - db      
     restart: unless-stopped
     user: 1000:1000
 

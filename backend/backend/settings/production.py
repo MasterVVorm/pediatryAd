@@ -2,15 +2,15 @@ from .base import *
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+DEBUG = False
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pediatryad',
-        'USER': 'pediatryadmin',
-        'PASSWORD': 'markmark1',
-        'HOST': 'localhost',
-        'PORT': ''
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': '5432'
     }
 }
 

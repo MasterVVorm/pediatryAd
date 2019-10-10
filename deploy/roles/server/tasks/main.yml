@@ -1,8 +1,8 @@
-- name: Create data directory 
+- name: Create pgdata directory 
   file: 
-    path: "{{ ansible_env.PWD }}/data"
+    path: "{{ ansible_env.PWD }}/pgdata"
     state: directory
-  become: no     
+  become: no    
 
 - name: Create media directory 
   file: 
@@ -12,10 +12,10 @@
     
 
 - name: Shutdown server using docker compose
-  shell: "SERVER_PORT=9000 docker-compose -f pediatryAd/deploy/server/docker-compose.yml --project-directory pediatryAd down"
+  shell: "PGDATA={{ ansible_env.PWD }}/pgdata SERVER_PORT=9000 docker-compose -f pediatryAd/deploy/server/docker-compose.yml --project-directory pediatryAd down"
 
 - name: Start server using docker compose
-  shell: "SERVER_PORT=9000 docker-compose -f pediatryAd/deploy/server/docker-compose.yml --project-directory pediatryAd up --build -d"
+  shell: "PGDATA={{ ansible_env.PWD }}/pgdata SERVER_PORT=9000 docker-compose -f pediatryAd/deploy/server/docker-compose.yml --project-directory pediatryAd up --build -d"
 
   
 
