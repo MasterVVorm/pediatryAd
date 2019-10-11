@@ -208,7 +208,7 @@ function blurHandler({ target }) {
     toastr.error("Поле не может быть пустым");
     return;
   }
-  if ((id == 'video_url' || 'product_url' ) && value.length > 0 &&  !validURL(value)){
+  if ((id == 'video_url' || id == 'product_url' ) && value.length > 0 &&  !validURL(value)){
         toastr.error(id == 'video_url' ? 'Ссылка на видео введена некорректно': 'Ссылка на  ресурс рекламодателя введена некорректно');
         this.$data.error[id] = true
         return;

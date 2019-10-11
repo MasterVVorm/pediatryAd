@@ -42,6 +42,22 @@
             border-radius: 10px;
             background-size: cover;
             background-position: 50% 50%;
+            border: 2px solid $pausedColor;
+            .point {
+                position: absolute;
+                top: -6px;
+                right: -6px;
+                width: 12px;
+                height: 12px;
+                border-radius: 12px;
+                background: $pausedColor;
+            }
+            .point-active {
+                background: $activeColor;
+            }
+        }
+        .active {
+            border: 2px solid $activeColor;
         }
         .title {
             position: relative;

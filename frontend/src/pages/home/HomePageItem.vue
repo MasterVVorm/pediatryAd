@@ -4,8 +4,14 @@
   </div>
   <div class="advertisement" v-else role="img" alt="advertisement.id">
     <div class="description">
-      <div class="img_desc" :style="{backgroundImage: 'url(' + advertisement.images[0].url + ')'}"></div>
-      <div class="title">{{advertisement.title}}</div>
+      <div
+        class="img_desc"
+        :class="{'active': advertisement.active}"
+        :style="{backgroundImage: 'url(' + advertisement.images[0].url + ')'}"
+      >
+        <div class="point" :class="{'point-active': advertisement.active}"></div>
+      </div>
+      <div class="title">{{getTitle}}</div>
       <div class="desc">{{getDesc}}</div>
     </div>
     <div class="time">
@@ -19,7 +25,7 @@
     </div>
     <div class="actions">
       <ButtonEdit :id="advertisement.id" />
-      <ButtonPlay :active="advertisement.active" :id="advertisement.id.toString()"/>
+      <ButtonPlay :active="advertisement.active" :id="advertisement.id.toString()" />
       <ButtonDelete :id="advertisement.id.toString()" />
     </div>
   </div>
@@ -44,6 +50,10 @@ export default {
     Preloader
   },
   computed: {
+    getTitle() {
+      const title = this.advertisement.title;
+      return title.length > 60 ? title.slice(0, 60) + "..." : title;
+    },
     getDesc() {
       const desc = this.advertisement.description;
       return desc.length > 150 ? desc.slice(0, 150) + "..." : desc;
@@ -69,5 +79,4 @@ export default {
 </script>
 
 <style lang="scss" src="./_home_page_item_styles.scss" scoped>
-
 </style>
