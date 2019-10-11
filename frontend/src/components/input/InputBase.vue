@@ -20,7 +20,7 @@ export default {
     type: String,
     placeholder: String,
     validator: Function,
-    setUserData: Function
+    setUserData: Function,
   },
   data: () => ({
     inputValue: "",
@@ -45,7 +45,6 @@ export default {
   watch: {
     inputValue: {
       handler: function(val) {
-        this.inputValue = val;
         switch (this.type) {
           case "text":
             this.setUserData(userConstants.LOGIN, val);
@@ -56,7 +55,7 @@ export default {
           default:
             break;
         }
-      }
+      },
     }
   }
 };

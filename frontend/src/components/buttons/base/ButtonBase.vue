@@ -87,10 +87,12 @@ button {
   font-weight: bold;
   font-size: 17px;
   line-height: 20px;
-
   text-align: center;
   letter-spacing: 0.065em;
   height: 45px;
+  &:focus{
+    outline: none;
+  }
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);

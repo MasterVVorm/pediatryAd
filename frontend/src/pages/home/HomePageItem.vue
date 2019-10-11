@@ -1,8 +1,7 @@
 <template>
-  <div class="ad_preloader_wrapper" v-if="isDeleting">
-    <Preloader />
-  </div>
-  <div class="advertisement" v-else role="img" alt="advertisement.id">
+  <div class="advertisement_wrapper" >
+    <preloader v-if="isDeleting" />
+    <div v-else class="advertisement"  role="img" alt="advertisement.id">
     <div class="description">
       <div
         class="img_desc"
@@ -29,6 +28,8 @@
       <ButtonDelete :id="advertisement.id.toString()" />
     </div>
   </div>
+  </div>
+  
 </template>
 
 <script>
@@ -47,7 +48,7 @@ export default {
     ButtonEdit,
     ButtonPlay,
     ButtonDelete,
-    Preloader
+    preloader: Preloader
   },
   computed: {
     getTitle() {

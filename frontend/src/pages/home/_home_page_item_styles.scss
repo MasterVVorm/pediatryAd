@@ -1,26 +1,22 @@
-.ad_preloader_wrapper {
+.advertisement_wrapper {
     position: relative;
-    width: 100%;
     display: flex;
     justify-content: space-between;
-    @media (max-width: 1919px) {
-        margin-bottom: 2em;
-        min-height: 150px;
-        height: 10.1vw;
-    }
-    @media (min-width: 1920px) {
-        margin-bottom: 36px;
-        height: 193.5px;
+    width: 98%;
+    height: 129px;
+    margin-top: 24px;
+    &:nth-of-type(1) {
+        margin-top: 14px;
     }
 }
 
 .advertisement {
     position: relative;
-    width: 98%;
+    width: 100%;
+    height: 129px;
     display: flex;
     justify-content: space-between;
     transition: 0.3s;
-    margin-top: 24px;
     .description {
         position: relative;
         width: 859px;

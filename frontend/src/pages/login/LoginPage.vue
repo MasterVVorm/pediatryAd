@@ -98,9 +98,9 @@ section {
   grid-template-columns: 629px 651px;
   #logo {
     position: fixed;
-    top: 1.3vw;
-    left: 3.67vw;
-    width: 3.2vw;
+    top: 16px;
+    left: 47px;
+    width: 40px;
   }
   h1 {
     position: relative;
