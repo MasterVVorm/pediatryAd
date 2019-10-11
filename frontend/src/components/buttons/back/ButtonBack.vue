@@ -1,6 +1,7 @@
 <template>
   <div class="back_btn" @click="clickHandler">
     <svg width="25" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>Назад</title>
       <path d="M25 9V12H6.25L12.5 18L10.9375 21L0 10.5L10.9375 0L12.5 3L6.25 9H25Z" fill="#B3A0CC" />
     </svg>
   </div>
