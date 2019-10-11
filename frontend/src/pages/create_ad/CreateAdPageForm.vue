@@ -91,7 +91,6 @@ import {
 } from "../../utils/common.utils";
 import SelectBase from "../../components/selectors/SelectorBase";
 import Preloader from "../../components/preloader/Preloader";
-import axios from "axios";
 
 export default {
   name: "create_ad_form",
@@ -143,10 +142,6 @@ export default {
   },
 };
 
-function showTimePicker() {
-  this.show_time_picker = !this.show_time_picker;
-}
-
 function setIndex(index) {
   this.error.index = false;
   this.index = index;
@@ -166,7 +161,7 @@ function inputHandler({ target }) {
   this.$data[id] = value;
 }
 
-function changeHandler({ target }) {
+function changeHandler() {
   const file_upload = this.$refs.file_upload;
   if (file_upload.files && file_upload.files[0]) {
     const reader = new FileReader();
@@ -201,6 +196,7 @@ function createAd() {
       return;
     }
   }
+  
   let formData = new FormData();
 
   formData.append("token", JSON.parse(localStorage.getItem("TOKEN")));

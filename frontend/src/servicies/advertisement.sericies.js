@@ -72,7 +72,7 @@ function createAd(formData) {
                 }
             })
             const { status } = response
-            if (status === 201) {
+            if (validateStatus(status)) {
                 success()
             } else {
                 failure()
@@ -89,8 +89,6 @@ function createAd(formData) {
 
         function failure() {
             commit('set_loading', false)
-            commit('set_error', true)
-            commit('set_error_message', errorConstants.SMTH_WRONG)
             toastr.error(errorConstants.SMTH_WRONG)
         }
     }
@@ -130,17 +128,14 @@ function deleteAd(id) {
 
         function failure() {
             commit('set_ad_updating', { status: false, id: null })
-            commit('set_error', true)
-            commit('set_error_message', errorConstants.SMTH_WRONG)
             toastr.error(errorConstants.SMTH_WRONG)
-
         }
     }
 }
 
 function getAd(id) {
     const token = JSON.parse(localStorage.getItem(storageConstants.TOKEN))
-    return async(commit, state) => {
+    return async(commit) => {
         commit('set_loading', true)
         try {
             const response = await axios.request({
@@ -170,16 +165,12 @@ function getAd(id) {
                     case 401:
                         failure('Токен устарел')
                         break
-                    case 404:
-                        failure()
-                        break
                     default:
-                        failure()
+                        failure(errorConstants.SMTH_WRONG)
                         break
                 }
-
             } catch (error) {
-
+                failure(errorConstants.SMTH_WRONG)
             }
         }
 
@@ -190,10 +181,7 @@ function getAd(id) {
 
         function failure(message) {
             commit('set_loading', false)
-            commit('set_error', true)
-            commit('set_error_message', message)
             toastr.error(message)
-
         }
     }
 }
@@ -235,9 +223,7 @@ function updateActive(id) {
 
         function failure() {
             commit('set_ad_updating', { status: false, id: null })
-            commit('set_error', true)
             toastr.error('Что-то пошло не так, повторите попытку позже')
-            commit('set_error_message', errorConstants.SMTH_WRONG)
         }
     }
 }

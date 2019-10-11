@@ -3,13 +3,10 @@
     <img id="logo" src="../../assets/images/logo.svg" alt />
     <LoginPageInputContainer @onSubmit="onSubmit">
       <h1>
-        Lorem ipsum dolor sit
-        amet, consectetur
-        adipiscing.
+        Панель администрирования рекламы ассоциации педиатров
       </h1>
       <h3>
-        Lorem ipsum dolor sit amet, consectetur adipiscing
-        elit. Tellus, pellentesque.
+        для получения регистрационных данных свяжитесь с администратором
       </h3>
       <component
         :is="input_component"
@@ -80,7 +77,6 @@ function setUserData(id, value) {
 
 function onSubmit() {
   if (validateData(this.login) && validateData(this.password)) {
-    console.log("submit");
     this.$store.dispatch("login", {
       login: this.login,
       password: this.password
@@ -108,14 +104,14 @@ section {
   }
   h1 {
     position: relative;
-    width: 383px;
-    height: 144px;
+    width:500px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 300;
-    font-size: 40px;
+    font-size: 35px;
     line-height: 120.19%;
     margin-top: 0;
+    margin-bottom: 0;
     color: $textColor;
   }
   h3 {
@@ -129,6 +125,7 @@ section {
     font-size: 18px;
     line-height: 21px;
     color: $textColor;
+    margin-bottom: 50px;
   }
 }
 </style>

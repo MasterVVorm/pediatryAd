@@ -77,9 +77,6 @@ export default {
       return `left: ${domRect.left}px; top: ${domRect.top}px; width: ${domRect.width}px;`;
     }
   },
-  watch: {
-    getStyles: function() {}
-  },
   methods: {
     openOptions() {
       this.showOptions = !this.showOptions;

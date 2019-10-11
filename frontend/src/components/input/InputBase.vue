@@ -4,9 +4,9 @@
     <input
       :type="type"
       :placeholder="placeholder"
-      @input="inputHandler"
       @focus="onFocus"
       @blur="onBlur"
+      v-model="inputValue"
     />
   </div>
 </template>
@@ -28,19 +28,6 @@ export default {
     focused: false
   }),
   methods: {
-    inputHandler: function({ target }) {
-      this.inputValue = target.value;
-      switch (this.type) {
-        case "text":
-          this.setUserData(userConstants.LOGIN, target.value);
-          break;
-        case "password":
-          this.setUserData(userConstants.PASSWORD, target.value);
-          break;
-        default:
-          break;
-      }
-    },
     onFocus: function() {
       this.focused = true;
     },
@@ -53,6 +40,23 @@ export default {
       return {
         ["image-active"]: this.validator(this.inputValue)
       };
+    }
+  },
+  watch: {
+    inputValue: {
+      handler: function(val) {
+        this.inputValue = val;
+        switch (this.type) {
+          case "text":
+            this.setUserData(userConstants.LOGIN, val);
+            break;
+          case "password":
+            this.setUserData(userConstants.PASSWORD, val);
+            break;
+          default:
+            break;
+        }
+      }
     }
   }
 };

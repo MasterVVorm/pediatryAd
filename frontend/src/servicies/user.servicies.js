@@ -103,12 +103,12 @@ async function authUser(commit) {
     function success(token) {
         commit('set_token', token)
         commit('set_logged', true)
-        commit('set_starting_app', false)
         localStorage.setItem(storageConstants.TOKEN, JSON.stringify(token))
         const href = window.location.href;
         if (href.includes('login') || href.includes('/server_error')) {
             router.push('/')
         }
+        commit('set_starting_app', false)
     }
 
     function failure() {

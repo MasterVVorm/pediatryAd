@@ -1,24 +1,23 @@
 <template>
   <section id="create_ad">
     <header>
-      <ButtonBack />
+      <button-back />
       <h1>Создать рекламную компанию</h1>
     </header>
-    <CreateAdPageForm ref="form" />
+    <form-create ref="form" />
     <div class="submit_btn" @click="create">Создать</div>
   </section>
 </template>
 
 <script>
 import ButtonBack from "../../components/buttons/back/ButtonBack";
-import ButtonBase from "../../components/buttons/base/ButtonBase";
 import CreateAdPageForm from "./CreateAdPageForm";
+
 export default {
   name: "create_ad",
   components: {
-    ButtonBase,
-    ButtonBack,
-    CreateAdPageForm
+    'button-back': ButtonBack,
+    'form-create': CreateAdPageForm
   },
   methods: {
     create: function() {

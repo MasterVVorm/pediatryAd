@@ -240,7 +240,7 @@ function uploadBtnClickHandler() {
   this.$refs.file_upload.click();
 }
 
-function changeHandler({ target }) {
+function changeHandler() {
   const file_upload = this.$refs.file_upload;
   if (file_upload.files && file_upload.files[0]) {
     const reader = new FileReader();
